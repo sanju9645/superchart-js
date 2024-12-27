@@ -1,0 +1,27 @@
+{
+  "name": "superchartjs",
+  "version": "1.0.0",
+  "description": "Supercharge your charts with ChartJS Enhanced!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanju9645/superchartjs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanju9645/superchartjs/issues"
+  },
+  "homepage": "https://github.com/sanju9645/superchartjs#readme",
+  "dependencies": {
+    "chart.js": "^4.4.7",
+    "vite": "^6.0.6"
+  },
+  "devDependencies": {
+    "rollup-plugin-dts": "^6.1.1"
+  }
+}

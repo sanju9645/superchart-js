@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SuperChartJS</title>
+</head>
+<body>
+  <canvas id="chartCanvas" width="400" height="200"></canvas>
+
+  <script type="module">
+    import { Plotter } from '../package/src/js/Plotter.js';
+
+    const data = {
+      labels: ['Red', 'Blue', 'Yellow'],
+      datasets: [
+        {
+          label: 'Dataset',
+          data: [12, 19, 3],
+          backgroundColor: ['red', 'blue', 'yellow'],
+        },
+      ],
+    };
+
+    const options = {
+      responsive: true,
+    };
+
+    const graph = new Plotter(data, options);
+    graph.render('chartCanvas');
+  </script>
+</body>
+</html>

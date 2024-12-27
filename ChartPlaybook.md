@@ -17,7 +17,7 @@ npm install -D rollup-plugin-dts
 1.3 Project Structure
 
 superchartjs/
-├── demo/          # For testing your library
+├── demo/              # For testing your library
 │   └── index.html     # Example usage
 ├── package/           # Source code for the library
 │   ├── src/

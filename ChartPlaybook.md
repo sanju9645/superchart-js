@@ -3,16 +3,17 @@ Step 1: Setting Up the Project
 1.1 Initialize the Project
 1. Open a terminal in the folder where you want to create your project.
 2. Run the following commands:
-
+```
 mkdir superchartjs
 cd superchartjs
 npm init -y
-
+```
 
 1.2 Install Dependencies
+```
 npm install vite chart.js --save
 npm install -D rollup-plugin-dts
-
+```
 
 1.3 Project Structure
 ```

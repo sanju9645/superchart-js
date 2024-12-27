@@ -2,11 +2,12 @@ import { defineConfig } from 'vite';
 import path from 'path';
 
 export default defineConfig({
-  root: 'demo',
+  root: path.resolve(__dirname, 'demo'),
   server: {
     open: true
   },
   build: {
+    outDir: path.resolve(__dirname, 'dist'),
     lib: {
       entry: path.resolve(__dirname, 'package/src/js/Plotter.js'),
       name: 'Plotter',

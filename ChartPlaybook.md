@@ -34,6 +34,7 @@ superchartjs/
 ```
 node_modules
 dist
+demo
 ```
 
 ## Step 2: Configure Vite
@@ -42,11 +43,12 @@ import { defineConfig } from 'vite';
 import path from 'path';
 
 export default defineConfig({
-  root: 'demo',
+  root: path.resolve(__dirname, 'demo'),
   server: {
     open: true
   },
   build: {
+    outDir: path.resolve(__dirname, 'dist'),
     lib: {
       entry: path.resolve(__dirname, 'package/src/js/Plotter.js'),
       name: 'Plotter',
@@ -63,6 +65,7 @@ export default defineConfig({
     }
   }
 });
+
 ```
 ## Step 3: Add Source Code
 Create the file package/src/js/Graph.js and add the example code

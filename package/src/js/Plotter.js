@@ -1,3 +1,5 @@
+import '@fortawesome/fontawesome-free/css/all.css';
+
 import Chart from 'chart.js/auto';
 import { Typify } from './bolt-ons/Typify.js';
 import { Colors } from './pigments/Colors.js';

@@ -1,25 +1,61 @@
 
 const styleRules = `
   .chart-parent-div {
-    min-width: 90% !important;
+    min-width: 100% !important;
+    width: 100%;
+    margin-top: 10px;
   }
+
   .chart-wrapper {
     display: flex;
-    align-items: flex-start;
-    max-width: 95% !important;
+    align-items: column;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100% !important;
   }
-  .chart-type-label {
-    margin-right: 1% !important;
+
+  .chart-type-wrapper {
+    order: -1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    gap: 2%;
   }
-  .chart-canvas {
-    border-radius: 0.4rem !important;
-    margin: 1%;
-  }
+
   .chart-type-dropdown {
-    margin-bottom: 15% !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-right: 1% !important;
     font-family: sans-serif;
     font-size: small;
   }
+
+  .chart-type-label {
+    margin-right: 1% !important;
+    font-weight: bold;
+    cursor: pointer;
+    width: max-content;
+  }
+
+  .chart-type-dropdown select {
+    padding: 5px;
+  }
+
+  .chart-canvas {
+    border-radius: 1rem;
+    margin: 1%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .chart-type-dropdown {
+    margin-right: 1% !important;
+  }
+
   .chart-sorting-buttons {
     top: 10px;
     right: 0px;
@@ -31,12 +67,12 @@ const styleRules = `
     font-weight: 600;
     opacity: .4;
     cursor: pointer;
-    height : 40px;
-    width : 40px;
   }
+
   .chart-sorting-buttons:hover {
     opacity: 1;
   }
+
   .chart-sorting-buttons-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -44,13 +80,17 @@ const styleRules = `
     position: absolute;
     gap: 0.5rem;
     margin: 45px 15px;
-    right: 0;
+    top: 1%;
+    right: 1%;
+    max-width: 100%;
+    justify-content: space-between;
+    overflow: hidden;
   }
-  .chart-type {
-    padding: 5px 5px;
-    border: solid 1px gray;
-    border-radius: 5px;
-    cursor: pointer;
+
+  .plotterjs-bolt-ons-sorting-container {
+    position: relative;
+    display: flex;
+    padding-top: 10px;
   }
 `;
 

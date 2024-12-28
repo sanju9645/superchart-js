@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/sanju9645/superchartjs#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "chart.js": "^4.4.3",
     "vite": "^6.0.6"
   },

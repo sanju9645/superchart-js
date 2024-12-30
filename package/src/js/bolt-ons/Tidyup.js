@@ -1,3 +1,4 @@
+import { Pictograms } from '../pigments/Pictograms.js';
 
 class Tidyup {
   constructor() {
@@ -24,7 +25,7 @@ class Tidyup {
 
       const buttonAsc = document.createElement('button');
       buttonAsc.classList = plugin.asc?.button?.class ?? 'chart-sorting-buttons';
-      buttonAsc.innerHTML = plugin.asc?.button?.label ?? "<span style='font-size:20px;'>&#8593;</span>";
+      buttonAsc.innerHTML = plugin.asc?.button?.label ?? Pictograms.sortAscIcon;
       buttonAsc.style.display = plugin.asc?.button?.display ?? true;
       buttonAsc.style.top = (typeof plugin.asc?.button?.topPosition !== 'undefined') ? `${plugin.asc.button.topPosition}px` : '10px';
       buttonAsc.style.right = (typeof plugin.asc?.button?.rightPosition !== 'undefined') ? `${plugin.asc.button.rightPosition}px` : '85px';
@@ -32,7 +33,7 @@ class Tidyup {
 
       const buttonDesc = document.createElement('button');
       buttonDesc.classList = plugin.desc?.button?.class ?? 'chart-sorting-buttons';
-      buttonDesc.innerHTML = plugin.desc?.button?.label ?? "<span style='font-size:20px;'>&#8595;</span>";
+      buttonDesc.innerHTML = plugin.desc?.button?.label ?? Pictograms.sortDescIcon;
       buttonDesc.style.display = plugin.desc?.button?.display ?? true;
       buttonDesc.style.top = (typeof plugin.desc?.button?.topPosition !== 'undefined') ? `${plugin.desc.button.topPosition}px` : '10px';
       buttonDesc.style.right = (typeof plugin.desc?.button?.rightPosition !== 'undefined') ? `${plugin.desc.button.rightPosition}px` : '45px';
@@ -40,7 +41,7 @@ class Tidyup {
 
       const buttonReset = document.createElement('button');
       buttonReset.classList = plugin.reset?.button?.class ?? 'chart-sorting-buttons';
-      buttonReset.innerHTML = plugin.reset?.button?.label ?? "<span style='font-size:25px;'>&#8634;</span>";
+      buttonReset.innerHTML = plugin.reset?.button?.label ?? Pictograms.resetIcon;
       buttonReset.style.display = plugin.reset?.button?.display ?? true;
       buttonReset.style.top = (typeof plugin.reset?.button?.topPosition !== 'undefined') ? `${plugin.reset.button.topPosition}px` : '10px';
       buttonReset.style.right = (typeof plugin.reset?.button?.rightPosition !== 'undefined') ? `${plugin.reset.button.rightPosition}px` : '0px';

@@ -1,52 +1,33 @@
 class Colors {
   static colors = [
-    { borderColor: 'rgba(183, 28, 28, 0.94)', fillColor: 'rgba(239, 154, 154, 0.8)', aboveColor: '#ef9a9a' }, // Red shades
-    { borderColor: 'rgba(233, 30, 99, 0.94)', fillColor: 'rgba(248, 187, 208, 0.8)', aboveColor: '#f8bbd0' }, // Pink shades
-    { borderColor: 'rgba(156, 39, 176, 0.94)', fillColor: 'rgba(209, 154, 238, 0.8)', aboveColor: '#d19aee' }, // Purple shades
-    { borderColor: 'rgba(63, 81, 181, 0.94)', fillColor: 'rgba(144, 202, 249, 0.8)', aboveColor: '#90caf9' }, // Blue shades
-    { borderColor: 'rgba(76, 175, 80, 0.94)', fillColor: 'rgba(178, 223, 138, 0.8)', aboveColor: '#b2dfdb' }, // Green shades
-    { borderColor: 'rgba(255, 193, 7, 0.94)', fillColor: 'rgba(255, 224, 130, 0.8)', aboveColor: '#ffee58' }, // Yellow shades
-    { borderColor: 'rgba(255, 152, 0, 0.94)', fillColor: 'rgba(255, 204, 128, 0.8)', aboveColor: '#ffcc80' }, // Orange shades
-    { borderColor: 'rgba(0, 188, 212, 0.94)', fillColor: 'rgba(128, 216, 255, 0.8)', aboveColor: '#80deea' }, // Cyan shades
-    { borderColor: 'rgba(255, 87, 34, 0.94)', fillColor: 'rgba(255, 171, 145, 0.8)', aboveColor: '#ffab91' }, // Deep Orange shades
-    { borderColor: 'rgba(76, 175, 80, 0.94)', fillColor: 'rgba(200, 230, 201, 0.8)', aboveColor: '#c8e6c9' }, // Light Green shades
-    { borderColor: 'rgba(121, 85, 72, 0.94)', fillColor: 'rgba(182, 128, 110, 0.8)', aboveColor: '#d6afa1' }, // Brown shades
-    { borderColor: 'rgba(33, 150, 243, 0.94)', fillColor: 'rgba(121, 194, 255, 0.8)', aboveColor: '#a0d8ff' }, // Light Blue shades
-    { borderColor: 'rgba(0, 150, 136, 0.94)', fillColor: 'rgba(77, 208, 179, 0.8)', aboveColor: '#8be2d6' }, // Teal shades
-    { borderColor: 'rgba(244, 67, 54, 0.94)', fillColor: 'rgba(255, 138, 128, 0.8)', aboveColor: '#ff9d93' }, // Deep Red shades
-    { borderColor: 'rgba(255, 193, 7, 0.94)', fillColor: 'rgba(255, 214, 130, 0.8)', aboveColor: '#ffe38e' }, // Amber shades
-    { borderColor: 'rgba(63, 81, 181, 0.94)', fillColor: 'rgba(126, 144, 211, 0.8)', aboveColor: '#9ea9d6' }, // Indigo shades
-    { borderColor: 'rgba(156, 39, 176, 0.94)', fillColor: 'rgba(210, 145, 216, 0.8)', aboveColor: '#e6bce2' }, // Pinkish Purple shades
-    { borderColor: 'rgba(142, 36, 170, 0.94)', fillColor: 'rgba(206, 147, 216, 0.8)', aboveColor: '#d0a7d8' }, // Violet shades
-    { borderColor: 'rgba(76, 175, 80, 0.94)', fillColor: 'rgba(139, 195, 110, 0.8)', aboveColor: '#b0e57c' }, // Light Lime shades
-    { borderColor: 'rgba(255, 87, 34, 0.94)', fillColor: 'rgba(255, 138, 101, 0.8)', aboveColor: '#ff9e80' }, // Orange Red shades
-    { borderColor: 'rgba(0, 150, 136, 0.94)', fillColor: 'rgba(77, 208, 179, 0.8)', aboveColor: '#8be2d6' }, // Cyan Teal shades
-    { borderColor: 'rgba(33, 33, 33, 0.94)', fillColor: 'rgba(66, 66, 66, 0.8)', aboveColor: '#424242' }, // Dark Gray shades
-    { borderColor: 'rgba(0, 0, 0, 0.94)', fillColor: 'rgba(33, 33, 33, 0.8)', aboveColor: '#212121' }, // Black shades
-    { borderColor: 'rgba(66, 30, 15, 0.94)', fillColor: 'rgba(128, 65, 32, 0.8)', aboveColor: '#80542e' }, // Dark Brown shades
-    { borderColor: 'rgba(45, 45, 48, 0.94)', fillColor: 'rgba(66, 66, 70, 0.8)', aboveColor: '#3c3c3e' }, // Charcoal shades
-    { borderColor: 'rgba(21, 21, 21, 0.94)', fillColor: 'rgba(37, 37, 37, 0.8)', aboveColor: '#2b2b2b' }, // Very Dark Gray shades
-    { borderColor: 'rgba(38, 50, 56, 0.94)', fillColor: 'rgba(57, 73, 78, 0.8)', aboveColor: '#394c52' }, // Dark Teal shades
-    { borderColor: 'rgba(143, 0, 0, 0.94)', fillColor: 'rgba(190, 0, 0, 0.8)', aboveColor: '#b50000' }, // Dark Red shades
-    { borderColor: 'rgba(0, 128, 0, 0.94)', fillColor: 'rgba(0, 153, 0, 0.8)', aboveColor: '#009900' }, // Dark Green shades
-    { borderColor: 'rgba(158, 158, 158, 0.94)', fillColor: 'rgba(186, 186, 186, 0.8)', aboveColor: '#bdbdbd' }, // Dark Silver shades
-    { borderColor: 'rgba(216, 67, 21, 0.94)', fillColor: 'rgba(244, 81, 30, 0.8)', aboveColor: '#f4511e' }, // Dark Orange Red shades
-    { borderColor: 'rgba(97, 97, 97, 0.94)', fillColor: 'rgba(150, 150, 150, 0.8)', aboveColor: '#969696' }, // Dark Steel shades
-    { borderColor: 'rgba(96, 125, 139, 0.94)', fillColor: 'rgba(158, 158, 158, 0.8)', aboveColor: '#9e9e9e' }, // Dark Cyan shades
-    { borderColor: 'rgba(56, 56, 56, 0.94)', fillColor: 'rgba(97, 97, 97, 0.8)', aboveColor: '#616161' }, // Dark Graphite shades
-    { borderColor: 'rgba(233, 30, 99, 0.94)', fillColor: 'rgba(248, 96, 99, 0.8)', aboveColor: '#f86463' }, // Dark Pink shades
-    { borderColor: 'rgba(196, 33, 39, 0.94)', fillColor: 'rgba(255, 87, 34, 0.8)', aboveColor: '#ff5722' }, // Dark Crimson Red shades
-    { borderColor: 'rgba(93, 63, 94, 0.94)', fillColor: 'rgba(150, 103, 139, 0.8)', aboveColor: '#96678b' }, // Dark Mauve shades
-    { borderColor: 'rgba(62, 39, 35, 0.94)', fillColor: 'rgba(120, 66, 38, 0.8)', aboveColor: '#78422f' }, // Dark Chestnut shades
-    { borderColor: 'rgba(0, 72, 27, 0.94)', fillColor: 'rgba(0, 128, 64, 0.8)', aboveColor: '#008040' }, // Dark Forest Green shades
-    { borderColor: 'rgba(8, 37, 56, 0.94)', fillColor: 'rgba(37, 66, 93, 0.8)', aboveColor: '#25425d' }, // Dark Navy Blue shades
+    { borderColor: '#9f1239', fillColor: 'rgba(190, 18, 60, 0.7)', aboveColor: '#fda4af' },
+    { borderColor: '#9d174d', fillColor: 'rgba(190, 24, 93, 0.7)', aboveColor: '#f9a8d4' },
+    { borderColor: '#86198f', fillColor: 'rgba(162, 28, 175, 0.7)', aboveColor: '#f0abfc' },
+    { borderColor: '#6b21a8', fillColor: 'rgba(126, 34, 206, 0.7)', aboveColor: '#d8b4fe' },
+    { borderColor: '#5b21b6', fillColor: 'rgba(109, 40, 217, 0.7)', aboveColor: '#c4b5fd' },
+    { borderColor: '#3730a3', fillColor: 'rgba(67, 56, 202, 0.7)', aboveColor: '#a5b4fc' },
+    { borderColor: '#1e40af', fillColor: 'rgba(29, 78, 216, 0.7)', aboveColor: '#93c5fd' },
+    { borderColor: '#075985', fillColor: 'rgba(3, 105, 161, 0.7)', aboveColor: '#7dd3fc' },
+    { borderColor: '#155e75', fillColor: 'rgba(14, 116, 144, 0.7)', aboveColor: '#67e8f9' },
+    { borderColor: '#115e59', fillColor: 'rgba(15, 118, 110, 0.7)', aboveColor: '#5eead4' },
+    { borderColor: '#065f46', fillColor: 'rgba(4, 120, 87, 0.7)', aboveColor: '#6ee7b7' },
+    { borderColor: '#166534', fillColor: 'rgba(21, 128, 61, 0.7)', aboveColor: '#86efac' },
+    { borderColor: '#3f6212', fillColor: 'rgba(77, 124, 15, 0.7)', aboveColor: '#bef264' },
+    { borderColor: '#854d0e', fillColor: 'rgba(161, 98, 7, 0.7)', aboveColor: '#fde047' },
+    { borderColor: '#92400e', fillColor: 'rgba(180, 83, 9, 0.7)', aboveColor: '#fcd34d' },
+    { borderColor: '#9a3412', fillColor: 'rgba(194, 65, 12, 0.7)', aboveColor: '#fdba74' },
+    { borderColor: '#991b1b', fillColor: 'rgba(185, 28, 28, 0.7)', aboveColor: '#fca5a5' },
+    { borderColor: '#292524', fillColor: 'rgba(68, 64, 60, 0.7)', aboveColor: '#d6d3d1' },
+    { borderColor: '#262626', fillColor: 'rgba(64, 64, 64, 0.7)', aboveColor: '#d4d4d4' },
+    { borderColor: '#27272a', fillColor: 'rgba(63, 63, 70, 0.7)', aboveColor: '#d4d4d8' },
+    { borderColor: '#1f2937', fillColor: 'rgba(55, 65, 81, 0.7)', aboveColor: '#d1d5db' },
+    { borderColor: '#1e293b', fillColor: 'rgba(51, 65, 85, 0.7)', aboveColor: '#cbd5e1' }
   ];
-
+  
   static bgColors = [
-    '#ffebee', '#fce4ec', '#f3e5f5', '#e3f2fd', '#e8f5e9', '#fffde7', '#fff3e0', '#e0f7fa', '#fbe9e7', 
-    '#f1f8e9', '#efebe9', '#e3f2fd', '#e0f2f1', '#ffebee', '#fff8e1', '#e8eaf6', '#f3e5f5', '#f3e5f5', 
-    '#f1f8e9', '#f8f8f8', '#fafafa', '#fcfcfc', '#f5f5f0', '#f9f9f9', '#fbFAF0', 
-    '#FDF5E6', '#FEFEFA', '#F0FFF0', '#F0FFFF', '#F5FFFA', '#FFF5EE', '#FAF0E6'
+    '#fff1f2', '#fdf2f8', '#fdf4ff', '#faf5ff', '#f5f3ff', '#eef2ff', '#eff6ff', '#f0f9ff', 
+    '#ecfeff', '#f0fdfa', '#ecfdf5', '#f0fdf4', '#f7fee7', '#fefce8', '#fffbeb', '#fff7ed', 
+    '#fef2f2', '#fafaf9', '#fafafa', '#fafafa', '#f9fafb', '#f8fafc'
   ];
 }
 

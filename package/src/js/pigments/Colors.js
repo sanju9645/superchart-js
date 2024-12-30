@@ -43,7 +43,9 @@ class Colors {
   ];
 
   static bgColors = [
-    '#F0F0F0', '#F5F5F5', '#F8F8F8', '#FAFAFA', '#FCFCFC', '#F5F5F0', '#F9F9F9', '#FBFAF0',
+    '#ffebee', '#fce4ec', '#f3e5f5', '#e3f2fd', '#e8f5e9', '#fffde7', '#fff3e0', '#e0f7fa', '#fbe9e7', 
+    '#f1f8e9', '#efebe9', '#e3f2fd', '#e0f2f1', '#ffebee', '#fff8e1', '#e8eaf6', '#f3e5f5', '#f3e5f5', 
+    '#f1f8e9', '#f8f8f8', '#fafafa', '#fcfcfc', '#f5f5f0', '#f9f9f9', '#fbFAF0', 
     '#FDF5E6', '#FEFEFA', '#F0FFF0', '#F0FFFF', '#F5FFFA', '#FFF5EE', '#FAF0E6'
   ];
 }

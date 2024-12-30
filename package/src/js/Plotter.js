@@ -153,7 +153,7 @@ class Plotter {
       return;
     }
     chartParams = this.#fmtChartParams(chartParams);
-
+    
     const bgColors = Colors.bgColors;
     const staticColors = Colors.colors;
     const datasets = this.#createFormattedDatasets(chartParams?.legends, staticColors);
@@ -207,6 +207,12 @@ class Plotter {
 
     const chartCanvasId = this.#createChartDivAndCanvas(chartParams);
     this.charts[chartCanvasId] = new Chart(document.getElementById(chartCanvasId), config);
+
+    const chartWrapperDiv = document.getElementById(`chart-wrapper-${chartCanvasId}`);
+    
+    if (chartWrapperDiv) {
+      chartWrapperDiv.style.backgroundColor = backgroundColor;
+    }
   }
 }
 

@@ -12,6 +12,7 @@ const styleRules = `
     flex-direction: column;
     width: 100%;
     max-width: 100% !important;
+    margin: 1% !important;
   }
 
   .chart-type-wrapper {
@@ -54,6 +55,10 @@ const styleRules = `
 
   .chart-type-dropdown {
     margin-right: 1% !important;
+  }
+
+  .chart-type {
+    border: none !important;
   }
 
   .chart-sorting-buttons {

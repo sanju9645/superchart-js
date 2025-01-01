@@ -5,6 +5,7 @@ import { Typify } from './bolt-ons/Typify.js';
 import { Colors } from './pigments/Colors.js';
 import { Tidyup } from './bolt-ons/Tidyup.js';
 import { Styleblast } from './style/Styleblast.js';
+import { addGoogleFont, loadBoxiconsCSS } from './tool-kit/Utils.js';
 
 class Plotter {
   constructor() {
@@ -78,10 +79,10 @@ class Plotter {
       alert(`No div with the class 'chart-wrapper' found to display the graph. Please add a <div id='chart-wrapper' class='chart-wrapper'></div> element to the main HTML page where you want to display your chart: ${chartParams?.chartTitle}`);
       return;
     }
-
     chartParentDiv.id = `chart-parent-div-${canvasId}`;
     chartParentDiv.className = 'chart-parent-div';
     chartParentDiv.setAttribute('data-chart-reference', canvasId);
+
     if (!canvas) {
       canvas = document.createElement('canvas');
       canvas.id = canvasId;
@@ -93,6 +94,7 @@ class Plotter {
     chartWrapper.setAttribute('data-chart-reference', canvasId);
     chartWrapper.appendChild(chartParentDiv);
     this.enhancedChartType.createChartTypeWrapper(chartParams);
+    this.enhancedChartType.configureChartTypeWrapper(chartParams);
 
     return canvasId;
   }
@@ -213,6 +215,10 @@ class Plotter {
     if (chartWrapperDiv) {
       chartWrapperDiv.style.backgroundColor = backgroundColor;
     }
+
+    addGoogleFont(`#chart-wrapper-${chartCanvasId}`);
+
+    loadBoxiconsCSS();
   }
 }
 

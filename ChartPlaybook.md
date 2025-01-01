@@ -18,7 +18,7 @@ npm install -D rollup-plugin-dts
 1.3 Project Structure
 ```
 superchartjs/
-├── demo/              # For testing your library
+├── test/              # For testing your library
 │   └── index.html     # Example usage
 ├── package/           # Source code for the library
 │   ├── src/
@@ -34,7 +34,7 @@ superchartjs/
 ```
 node_modules
 dist
-demo
+test
 ```
 
 ## Step 2: Configure Vite
@@ -43,7 +43,7 @@ import { defineConfig } from 'vite';
 import path from 'path';
 
 export default defineConfig({
-  root: path.resolve(__dirname, 'demo'),
+  root: path.resolve(__dirname, 'test'),
   server: {
     open: true
   },
@@ -71,7 +71,7 @@ export default defineConfig({
 Create the file package/src/js/Graph.js and add the example code
 
 ## Step 4: Add Example for Testing
-4.1 Create demo/index.html
+4.1 Create test/index.html
 This file will serve as a playground to test your library:
 
 ## Step 5: Build the Package

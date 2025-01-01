@@ -1,8 +1,16 @@
+import { SelectboxJS } from 'selectbox-js';
+
 class Typify {
   constructor(enhancedChart) {
+    this.chartObjects = {};
     this.enhancedChart = enhancedChart;
-    this.types = ['Line', 'Area', 'Bar', 'Pie', 'Doughnut'];
-
+    this.chartTypesSkelton = [
+      { id: 'line', text: 'Line', type: 'line', icon: 'bx bx-line-chart' },
+      { id: 'area', text: 'Area', type: 'area', icon: 'bx bxs-chart' },
+      { id: 'bar', text: 'Bar', type: 'bar', icon: 'bx bxs-bar-chart-alt-2' },
+      { id: 'pie', text: 'Pie', type: 'pie', icon: 'bx bxs-pie-chart-alt-2' },
+      { id: 'doughnut', text: 'Doughnut', type: 'doughnut', icon: 'bx bxs-doughnut-chart' }
+    ];
   }
 
   #createChartTypeLabel (labelText) {
@@ -81,32 +89,85 @@ class Typify {
     return div;
   }
 
+  #handleChartTypeChange_(chartReference, datasetLabel, chartType) {
+    return () => {  
+      const myChart = this.enhancedChart.charts[chartReference];
+
+      if (myChart) {
+        const datasetToUpdate = myChart.data.datasets.find(dataset => {
+          return dataset.label == datasetLabel;
+        });
+
+        if (datasetToUpdate) {
+          if (chartType.toLowerCase() === 'area') {
+            datasetToUpdate.type = 'line';
+            datasetToUpdate.fill = {
+              target: true,
+            };
+          } else if (chartType.toLowerCase() === 'line') {
+            datasetToUpdate.type = 'line';
+            datasetToUpdate.fill = {
+              target: false,
+            };
+          } else {
+            datasetToUpdate.type = chartType.toLowerCase();
+          }
+          myChart.update();
+        }
+      }
+    };
+  }
+
   #createChartTypeDropdown (chartTitle, datasetInput) {
     const chartReference = this.enhancedChart.fmtChartCanvasName(chartTitle);
     const dataSetReference = this.enhancedChart.fmtChartCanvasName(datasetInput.label);
-    const select = document.createElement('select');
+    const dropdownContainer = document.createElement('div');
+    dropdownContainer.id = `chart-type-${chartReference}-${dataSetReference}`;
+    dropdownContainer.name = 'chart-type';
+    dropdownContainer.className = 'chart-type';
+    dropdownContainer.setAttribute('data-dataset-reference', datasetInput.label);
+    const div = this.#createChartTypeDropdownWrapper(datasetInput, dropdownContainer);
+    const key = `${chartReference}${dataSetReference}`;
 
-    select.id = `chart-type-${chartReference}-${dataSetReference}`;
-    select.name = 'chart-type';
-    select.className = 'chart-type';
-    select.setAttribute('data-dataset-reference', datasetInput.label);
-    select.onchange = this.#handleChartTypeChange(chartReference, datasetInput.label);
-
-    this.types.forEach((type) => {
-      const option = document.createElement('option');
-      option.value = type;
-      option.textContent = type;
-
-      if (type.toLowerCase() === (datasetInput?.type?.toLowerCase() || 'line')) {
-        option.selected = true;
-      }
-      select.appendChild(option);
-    });
-
-    const div = this.#createChartTypeDropdownWrapper(datasetInput, select);
+    this.chartObjects[key] = this.chartTypesSkelton.map(chartType => ({
+      ...chartType,
+      onClick: this.#handleChartTypeChange_(chartReference, datasetInput.label, chartType.type)
+    }));
 
     return div;
   }
+
+  configureChartTypeWrapper (chartParams) {
+    const chartReference = this.enhancedChart.fmtChartCanvasName(chartParams?.chartTitle);
+
+    chartParams.legends.forEach((datasetInput) => {
+      const dataSetReference = this.enhancedChart.fmtChartCanvasName(datasetInput.label);
+
+      const options = {
+        iconPackCDN: 'https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css',
+        customFontLibraryURL : 'https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap',
+        fontFamily: "'Poppins', sans-serif",
+        dropdownMinWidth: '150px',
+        dropdownMaxWidth: '400px',
+        dropdownOptionBackground: '#fff',
+        dropdownOptionHoverBackground: '#F2F2F2',
+        selectedOptionBgColor: '#F2F2F2',
+        dropdownFontSize: '15px',
+        customCSSStyles: `
+          .selectbox-js-select-menu .selectbox-js-select-btn { height: 45px !important; }
+          .selectbox-js-select-menu-options .selectbox-js-select-menu-option { height: 45px !important; }
+        `,
+
+      };
+      const identifier = `chart-type-${chartReference}-${dataSetReference}`;
+      const key = `${chartReference}${dataSetReference}`;
+      const defaultChartType = this.chartObjects[key].find(chart => chart.type === datasetInput.type);
+
+      const selectbox = new SelectboxJS();
+      selectbox.render(identifier, defaultChartType, this.chartObjects[key], options);
+    });
+  }
+
 
   createChartTypeWrapper (chartParams) {
     const canvasId     = this.enhancedChart.fmtChartCanvasName(chartParams?.chartTitle);
@@ -119,8 +180,8 @@ class Typify {
         chartTypeWrapper.style.marginTop = "2%";
 
         chartParams.legends.forEach((datasetInput) => {
-          const chatTypeDropdwon = this.#createChartTypeDropdown(chartParams?.chartTitle, datasetInput);
-          chartTypeWrapper.appendChild(chatTypeDropdwon);
+          const chatTypeDropdwonWrapper = this.#createChartTypeDropdown(chartParams?.chartTitle, datasetInput);
+          chartTypeWrapper.appendChild(chatTypeDropdwonWrapper);
         });
         chartWrapper.appendChild(chartTypeWrapper);
       }

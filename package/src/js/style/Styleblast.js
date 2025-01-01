@@ -1,8 +1,15 @@
 
 const styleRules = `
+  .chart-wrapper {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
   .chart-parent-div {
     min-width: 100% !important;
-    width: 100%;
+    width: 95%;
     margin-top: 10px;
   }
 
@@ -10,7 +17,7 @@ const styleRules = `
     display: flex;
     align-items: column;
     flex-direction: column;
-    width: 100%;
+    width: 95%;
     max-width: 100% !important;
     margin: 1% !important;
   }
@@ -97,16 +104,74 @@ const styleRules = `
     display: flex;
     padding-top: 10px;
   }
+
+  /* Custom Dropdown Styling */
+  .superchart-select-menu {
+    font-size:15px;
+    width: 200px;
+    margin: 140px auto;
+  }
+
+  .superchart-select-menu .superchart-select-btn {
+    display: flex;
+    height: 55px;
+    background: #fff;
+    padding: 20px;
+    font-weight: 400;
+    border-radius: 8px;
+    align-items: center;
+    cursor: pointer;
+    justify-content: space-between;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+
+  .superchart-select-btn i{
+      transition: 0.3s;
+  }
+
+  .superchart-select-menu.active .superchart-select-btn i{
+      transform: rotate(-180deg);
+  }
+      
+  .superchart-select-menu .superchart-select-menu-options{
+      position: relative;
+      padding: 20px;
+      margin-top: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 3px rgba(0,0,0,0.1);
+      display: none;
+  }
+
+  .superchart-select-menu.active .superchart-select-menu-options{
+    display: block;
+  }
+
+  .superchart-select-menu-options .superchart-select-menu-option{
+    display: flex;
+    height: 55px;
+    cursor: pointer;
+    padding: 0 16px;
+    border-radius: 8px;
+    align-items: center;
+  }
+
+  .superchart-select-menu-options .superchart-select-menu-option:hover {
+    background: #F2F2F2;
+  }
+
+  .superchart-select-menu-option i{
+    margin-right: 12px;
+  }
 `;
 
-function addStyleSheet() {
+const addStyleSheet = () => {
   const style = document.createElement('style');
   style.type = 'text/css';
   style.appendChild(document.createTextNode(styleRules));
   document.head.appendChild(style);
 }
 
-function Styleblast() {
+const Styleblast = () => {
   addStyleSheet();
 
   const observer = new MutationObserver(() => {

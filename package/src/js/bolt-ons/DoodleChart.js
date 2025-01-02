@@ -19,6 +19,13 @@ export class DrawingTools {
   createDrawingTools(parentDiv, chartCanvasId) {
     const toolbar = document.createElement('div');
     toolbar.className = 'drawing-toolbar';
+    
+    // Add position styling to toolbar
+    toolbar.style.position = 'absolute';
+    toolbar.style.top = '0';
+    toolbar.style.left = '0';
+    toolbar.style.zIndex = '101'; // Just above canvas (which is 100)
+    
     toolbar.innerHTML = `
       <button class="drawing-tool" data-tool="pen" title="Free Draw">
         <i class="fas fa-pen"></i>
@@ -50,8 +57,8 @@ export class DrawingTools {
         <i class="fas fa-trash"></i>
       </button>
     `;
-    parentDiv.appendChild(toolbar);
 
+    // Get canvas wrapper (created by fabric.js)
     const chartCanvas = document.getElementById(chartCanvasId);
     const rect = chartCanvas.getBoundingClientRect();
 
@@ -70,16 +77,21 @@ export class DrawingTools {
       selection: true
     });
 
+    // Add toolbar to the canvas wrapper
+    const canvasWrapper = this.fabricCanvas.wrapperEl;
+    canvasWrapper.style.position = 'relative'; // Ensure relative positioning
+    canvasWrapper.appendChild(toolbar);
+
     this.fabricCanvas.freeDrawingBrush = new PencilBrush(this.fabricCanvas);
     this.fabricCanvas.freeDrawingBrush.width = this.currentWidth;
     this.fabricCanvas.freeDrawingBrush.color = this.currentColor;
 
-    const canvasWrapper = this.fabricCanvas.wrapperEl;
-    canvasWrapper.style.position = 'absolute';
-    canvasWrapper.style.top = '0';
-    canvasWrapper.style.left = '0';
-    canvasWrapper.style.zIndex = '100';
-    canvasWrapper.style.pointerEvents = 'none';
+    // const canvasWrapper = this.fabricCanvas.wrapperEl;
+    // canvasWrapper.style.position = 'absolute';
+    // canvasWrapper.style.top = '0';
+    // canvasWrapper.style.left = '0';
+    // canvasWrapper.style.zIndex = '100';
+    // canvasWrapper.style.pointerEvents = 'none';
 
     this.setupEventListeners(toolbar);
 
@@ -195,6 +207,12 @@ export class DrawingTools {
   setTool(tool) {
     const canvasWrapper = this.fabricCanvas.wrapperEl;
     this.currentMode = tool;
+
+    // Reset all objects' selection state
+    this.fabricCanvas.getObjects().forEach(obj => {
+      obj.selectable = false;
+      obj.evented = true;
+    });
 
     this.fabricCanvas.off('mouse:down');
     this.fabricCanvas.off('mouse:move');
@@ -400,45 +418,14 @@ export class DrawingTools {
         this.fabricCanvas.selection = false;
         canvasWrapper.style.cursor = 'crosshair';
         
-        let isErasing = false;
-        let removedObjects = [];
-
-        this.fabricCanvas.on('mouse:down', () => {
-          isErasing = true;
-          removedObjects = [];
+        this.fabricCanvas.on('mouse:down', (options) => {
+          this.eraseObjects(options);
         });
 
         this.fabricCanvas.on('mouse:move', (options) => {
-          if (!isErasing) return;
-          const pointer = this.fabricCanvas.getPointer(options.e);
-          const objects = this.fabricCanvas.getObjects();
-          
-          objects.forEach(obj => {
-            if (obj instanceof Line) {
-              const line = obj;
-              const p1 = { x: line.x1, y: line.y1 };
-              const p2 = { x: line.x2, y: line.y2 };
-              const distance = this.distanceFromPointToLine(pointer, p1, p2);
-              
-              if (distance < this.currentWidth * 2) {
-                removedObjects.push(obj);
-                this.fabricCanvas.remove(obj);
-              }
-            } else if (obj.containsPoint(pointer)) {
-              removedObjects.push(obj);
-              this.fabricCanvas.remove(obj);
-            }
-          });
-          this.fabricCanvas.renderAll();
-        });
-
-        this.fabricCanvas.on('mouse:up', () => {
-          if (isErasing && removedObjects.length > 0) {
-            // Add removed objects to undo stack
-            removedObjects.forEach(obj => this.undoStack.push(obj));
-            this.updateUndoButton();
+          if (options.e.buttons === 1) { // Check if mouse button is pressed
+            this.eraseObjects(options);
           }
-          isErasing = false;
         });
         break;
 
@@ -447,24 +434,65 @@ export class DrawingTools {
         this.fabricCanvas.isDrawingMode = false;
         this.fabricCanvas.selection = true;
         canvasWrapper.style.cursor = 'move';
+        
+        // Make all objects selectable
         this.fabricCanvas.getObjects().forEach(obj => {
           obj.selectable = true;
           obj.evented = true;
-          if (obj instanceof Line) {
-            obj.hasControls = true;
-            obj.hasBorders = true;
-          }
         });
         break;
 
       default:
-        canvasWrapper.style.pointerEvents = 'none';
-        this.fabricCanvas.isDrawingMode = false;
-        this.fabricCanvas.selection = false;
-        canvasWrapper.style.cursor = 'default';
+        // For all other tools, make objects non-selectable
+        this.fabricCanvas.getObjects().forEach(obj => {
+          obj.selectable = false;
+          obj.evented = true;
+        });
     }
 
     this.fabricCanvas.renderAll();
+  }
+
+  eraseObjects(options) {
+    const pointer = this.fabricCanvas.getPointer(options.e);
+    const objects = this.fabricCanvas.getObjects();
+    const tolerance = this.currentWidth; // Use current width as tolerance
+
+    objects.forEach(obj => {
+      if (obj instanceof Line) {
+        // For lines, check distance from point to line
+        const p1 = { x: obj.x1, y: obj.y1 };
+        const p2 = { x: obj.x2, y: obj.y2 };
+        if (this.distanceFromPointToLine(pointer, p1, p2) < tolerance) {
+          this.objectList.push(obj);
+          this.fabricCanvas.remove(obj);
+        }
+      } 
+      else if (obj instanceof Rect || obj instanceof Circle) {
+        // For rectangles and circles, check if point is near the stroke
+        const objectCenter = obj.getCenterPoint();
+        const objectCoords = obj.getCoords(); // Get all corner points
+
+        // Check if point is near any edge
+        for (let i = 0; i < objectCoords.length; i++) {
+          const point1 = objectCoords[i];
+          const point2 = objectCoords[(i + 1) % objectCoords.length];
+          if (this.distanceFromPointToLine(pointer, point1, point2) < tolerance) {
+            this.objectList.push(obj);
+            this.fabricCanvas.remove(obj);
+            break;
+          }
+        }
+      }
+      // For all other objects (including pen strokes)
+      else if (obj.containsPoint(pointer)) {
+        this.objectList.push(obj);
+        this.fabricCanvas.remove(obj);
+      }
+    });
+
+    this.fabricCanvas.renderAll();
+    this.updateUndoButton();
   }
 
   distanceFromPointToLine(point, lineStart, lineEnd) {

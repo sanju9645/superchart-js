@@ -25,6 +25,14 @@ const styleRules = `
 .drawing-tool.active {
   background-color: #e0e0e0;
 }
+
+.drawing-toolbar {
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  margin: 5px;
+}
 `;
 
 const addStyleSheet = () => {

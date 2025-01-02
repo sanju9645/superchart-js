@@ -1,4 +1,4 @@
-import { Canvas, PencilBrush, Line, Rect, Circle } from 'fabric';
+import { Canvas, PencilBrush, Line, Rect, Circle, IText } from 'fabric';
 
 export class DrawingTools {
   constructor() {
@@ -12,10 +12,10 @@ export class DrawingTools {
     this.shape = null;
     this.isDrawingShape = false;
     this.startPoint = null;
+    this.isTextMode = false;
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {
-    // Updated toolbar with new shape tools
     const toolbar = document.createElement('div');
     toolbar.className = 'drawing-toolbar';
     toolbar.innerHTML = `
@@ -31,6 +31,9 @@ export class DrawingTools {
       <button class="drawing-tool" data-tool="circle" title="Circle">
         <i class="fas fa-circle"></i>
       </button>
+      <button class="drawing-tool" data-tool="text" title="Add Text">
+        <i class="fas fa-font"></i>
+      </button>
       <button class="drawing-tool" data-tool="eraser" title="Eraser">
         <i class="fas fa-eraser"></i>
       </button>
@@ -38,18 +41,16 @@ export class DrawingTools {
         <i class="fas fa-arrows-alt"></i>
       </button>
       <input type="color" class="color-picker" value="#000000" title="Color">
-      <input type="range" class="width-slider" min="1" max="10" value="2" title="Width">
+      <input type="range" class="width-slider" min="1" max="72" value="2" title="Size">
       <button class="clear-canvas" title="Clear Drawing">
         <i class="fas fa-trash"></i>
       </button>
     `;
     parentDiv.appendChild(toolbar);
 
-    // Get chart dimensions
     const chartCanvas = document.getElementById(chartCanvasId);
     const rect = chartCanvas.getBoundingClientRect();
 
-    // Create and setup the canvas
     const drawingCanvas = document.createElement('canvas');
     drawingCanvas.id = `drawing-${chartCanvasId}`;
     drawingCanvas.style.position = 'absolute';
@@ -58,7 +59,6 @@ export class DrawingTools {
     drawingCanvas.style.zIndex = '100';
     parentDiv.appendChild(drawingCanvas);
 
-    // Initialize Fabric canvas
     this.fabricCanvas = new Canvas(drawingCanvas.id, {
       width: rect.width,
       height: rect.height,
@@ -66,12 +66,10 @@ export class DrawingTools {
       selection: true
     });
 
-    // Initialize brush
     this.fabricCanvas.freeDrawingBrush = new PencilBrush(this.fabricCanvas);
     this.fabricCanvas.freeDrawingBrush.width = this.currentWidth;
     this.fabricCanvas.freeDrawingBrush.color = this.currentColor;
 
-    // Make canvas wrapper interactive
     const canvasWrapper = this.fabricCanvas.wrapperEl;
     canvasWrapper.style.position = 'absolute';
     canvasWrapper.style.top = '0';
@@ -83,20 +81,32 @@ export class DrawingTools {
   }
 
   setupEventListeners(toolbar) {
-    // Tool selection
     toolbar.querySelectorAll('.drawing-tool').forEach(button => {
       button.addEventListener('click', (e) => {
         const tool = e.currentTarget.dataset.tool;
+        if (tool !== 'text') {
+          this.isTextMode = false;
+        }
         this.setTool(tool);
         
-        // Toggle active class
         toolbar.querySelectorAll('.drawing-tool').forEach(btn => 
           btn.classList.remove('active'));
         e.currentTarget.classList.add('active');
+
+        // Update slider range based on tool
+        const widthSlider = toolbar.querySelector('.width-slider');
+        if (tool === 'text') {
+          widthSlider.min = '10';
+          widthSlider.max = '72';
+          widthSlider.title = 'Font Size';
+        } else {
+          widthSlider.min = '1';
+          widthSlider.max = '10';
+          widthSlider.title = 'Line Width';
+        }
       });
     });
 
-    // Color picker
     toolbar.querySelector('.color-picker').addEventListener('change', (e) => {
       this.currentColor = e.target.value;
       if (this.currentMode === 'pen') {
@@ -104,7 +114,6 @@ export class DrawingTools {
       }
     });
 
-    // Width slider
     toolbar.querySelector('.width-slider').addEventListener('input', (e) => {
       this.currentWidth = parseInt(e.target.value);
       if (this.currentMode === 'pen') {
@@ -112,7 +121,6 @@ export class DrawingTools {
       }
     });
 
-    // Clear canvas
     toolbar.querySelector('.clear-canvas').addEventListener('click', () => {
       this.fabricCanvas.clear();
     });
@@ -122,7 +130,6 @@ export class DrawingTools {
     const canvasWrapper = this.fabricCanvas.wrapperEl;
     this.currentMode = tool;
 
-    // Remove any existing event listeners
     this.fabricCanvas.off('mouse:down');
     this.fabricCanvas.off('mouse:move');
     this.fabricCanvas.off('mouse:up');
@@ -135,6 +142,41 @@ export class DrawingTools {
         this.fabricCanvas.freeDrawingBrush.color = this.currentColor;
         this.fabricCanvas.freeDrawingBrush.width = this.currentWidth;
         canvasWrapper.style.cursor = 'crosshair';
+        break;
+
+      case 'text':
+        this.isTextMode = true;
+        canvasWrapper.style.pointerEvents = 'auto';
+        this.fabricCanvas.isDrawingMode = false;
+        this.fabricCanvas.selection = true;
+        canvasWrapper.style.cursor = 'text';
+
+        this.fabricCanvas.on('mouse:down', (options) => {
+          if (this.isTextMode) {
+            const pointer = this.fabricCanvas.getPointer(options.e);
+            const text = new IText('Click to edit text', {
+              left: pointer.x,
+              top: pointer.y,
+              fontSize: this.currentWidth,
+              fill: this.currentColor,
+              fontFamily: 'Arial',
+              selectable: true,
+              editable: true
+            });
+            
+            this.fabricCanvas.add(text);
+            this.fabricCanvas.setActiveObject(text);
+            text.enterEditing();
+            text.selectAll();
+            
+            this.isTextMode = false;
+            
+            const moveButton = document.querySelector('[data-tool="move"]');
+            if (moveButton) {
+              moveButton.click();
+            }
+          }
+        });
         break;
 
       case 'line':
@@ -330,7 +372,6 @@ export class DrawingTools {
         this.fabricCanvas.isDrawingMode = false;
         this.fabricCanvas.selection = true;
         canvasWrapper.style.cursor = 'move';
-        // Enable object movement
         this.fabricCanvas.getObjects().forEach(obj => {
           obj.selectable = true;
           obj.evented = true;

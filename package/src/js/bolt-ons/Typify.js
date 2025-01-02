@@ -9,7 +9,9 @@ class Typify {
       { id: 'area', text: 'Area', type: 'area', icon: 'bx bxs-chart' },
       { id: 'bar', text: 'Bar', type: 'bar', icon: 'bx bxs-bar-chart-alt-2' },
       { id: 'pie', text: 'Pie', type: 'pie', icon: 'bx bxs-pie-chart-alt-2' },
-      { id: 'doughnut', text: 'Doughnut', type: 'doughnut', icon: 'bx bxs-doughnut-chart' }
+      { id: 'bubble', text: 'Bubble', type: 'bubble', icon: 'bx bx-scatter-chart bx-rotate-90' },
+      { id: 'doughnut', text: 'Doughnut', type: 'doughnut', icon: 'bx bxs-doughnut-chart' },
+      { id: 'scatter', text: 'Scatter', type: 'scatter', icon: 'bx bx-scatter-chart' },
     ];
   }
 
@@ -31,36 +33,6 @@ class Typify {
     label.style.fontWeight = 'bold';
 
     return label;
-  }
-
-  #handleChartTypeChange (chartReference, datasetLabel) {
-    return () => {
-      const chartType = document.getElementById(`chart-type-${chartReference}-${this.enhancedChart.fmtChartCanvasName(datasetLabel)}`).value;
-      const myChart   = this.enhancedChart.charts[chartReference];
-
-      if (myChart) {
-        const datasetToUpdate = myChart.data.datasets.find(dataset => {
-          return dataset.label == datasetLabel;
-        });
-
-        if (datasetToUpdate) {
-          if (chartType.toLowerCase() === 'area') {
-            datasetToUpdate.type = 'line';
-            datasetToUpdate.fill = {
-              target: true,
-            };
-          } else if (chartType.toLowerCase() === 'line') {
-            datasetToUpdate.type = 'line';
-            datasetToUpdate.fill = {
-              target: false,
-            };
-          } else {
-            datasetToUpdate.type = chartType.toLowerCase();
-          }
-          myChart.update();
-        }
-      }
-    };
   }
 
   #createChartTypeDropdownWrapper (datasetInput, select) {
@@ -89,8 +61,8 @@ class Typify {
     return div;
   }
 
-  #handleChartTypeChange_(chartReference, datasetLabel, chartType) {
-    return () => {  
+  #handleChartTypeChange(chartReference, datasetLabel, chartType) {
+    return () => {
       const myChart = this.enhancedChart.charts[chartReference];
 
       if (myChart) {
@@ -131,7 +103,7 @@ class Typify {
 
     this.chartObjects[key] = this.chartTypesSkelton.map(chartType => ({
       ...chartType,
-      onClick: this.#handleChartTypeChange_(chartReference, datasetInput.label, chartType.type)
+      onClick: this.#handleChartTypeChange(chartReference, datasetInput.label, chartType.type)
     }));
 
     return div;
@@ -161,10 +133,12 @@ class Typify {
       };
       const identifier = `chart-type-${chartReference}-${dataSetReference}`;
       const key = `${chartReference}${dataSetReference}`;
-      const defaultChartType = this.chartObjects[key].find(chart => chart.type === datasetInput.type);
+      if (this.chartObjects[key]) {
+        const defaultChartType = this.chartObjects[key].find(chart => chart.type === datasetInput.type);
 
-      const selectbox = new SelectboxJS();
-      selectbox.render(identifier, defaultChartType, this.chartObjects[key], options);
+        const selectbox = new SelectboxJS();
+        selectbox.render(identifier, defaultChartType, this.chartObjects[key], options);
+      }
     });
   }
 

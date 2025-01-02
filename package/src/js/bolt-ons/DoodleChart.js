@@ -13,6 +13,7 @@ export class DrawingTools {
     this.isDrawingShape = false;
     this.startPoint = null;
     this.isTextMode = false;
+    this.objectList = [];
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {
@@ -42,6 +43,9 @@ export class DrawingTools {
       </button>
       <input type="color" class="color-picker" value="#000000" title="Color">
       <input type="range" class="width-slider" min="1" max="72" value="2" title="Size">
+      <button class="undo-canvas" title="Undo">
+        <i class="fas fa-undo"></i>
+      </button>
       <button class="clear-canvas" title="Clear Drawing">
         <i class="fas fa-trash"></i>
       </button>
@@ -78,6 +82,21 @@ export class DrawingTools {
     canvasWrapper.style.pointerEvents = 'none';
 
     this.setupEventListeners(toolbar);
+
+    // Initialize first state
+    this.saveState();
+
+    // Initialize canvas state tracking
+    this.fabricCanvas.on('object:added', (e) => {
+      if (e.target) {
+        this.objectList.push(e.target);
+        this.updateUndoButton();
+      }
+    });
+
+    this.fabricCanvas.on('object:removed', () => {
+      this.saveState();
+    });
   }
 
   setupEventListeners(toolbar) {
@@ -119,11 +138,58 @@ export class DrawingTools {
       if (this.currentMode === 'pen') {
         this.fabricCanvas.freeDrawingBrush.width = this.currentWidth;
       }
+      
+      // Update active text object if exists
+      const activeObject = this.fabricCanvas.getActiveObject();
+      if (activeObject && activeObject instanceof IText) {
+        activeObject.set('fontSize', this.currentWidth);
+        this.fabricCanvas.renderAll();
+      }
     });
 
+    // Undo button
+    toolbar.querySelector('.undo-canvas').addEventListener('click', () => {
+      this.undo();
+    });
+
+    // Clear canvas
     toolbar.querySelector('.clear-canvas').addEventListener('click', () => {
       this.fabricCanvas.clear();
+      this.objectList = [];
+      this.updateUndoButton();
     });
+
+    // Add keyboard shortcut for undo
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        this.undo();
+      }
+    });
+  }
+
+  saveState() {
+    const objects = this.fabricCanvas.getObjects();
+    if (objects.length > 0) {
+      this.canvasState.push([...objects]);
+      this.updateUndoButton();
+    }
+  }
+
+  undo() {
+    if (this.objectList.length > 0) {
+      const lastObject = this.objectList.pop();
+      this.fabricCanvas.remove(lastObject);
+      this.fabricCanvas.renderAll();
+      this.updateUndoButton();
+    }
+  }
+
+  updateUndoButton() {
+    const undoButton = document.querySelector('.undo-canvas');
+    if (undoButton) {
+      undoButton.disabled = this.objectList.length === 0;
+    }
   }
 
   setTool(tool) {
@@ -171,6 +237,7 @@ export class DrawingTools {
             
             this.isTextMode = false;
             
+            // Switch to move tool after adding text
             const moveButton = document.querySelector('[data-tool="move"]');
             if (moveButton) {
               moveButton.click();
@@ -334,9 +401,11 @@ export class DrawingTools {
         canvasWrapper.style.cursor = 'crosshair';
         
         let isErasing = false;
+        let removedObjects = [];
 
         this.fabricCanvas.on('mouse:down', () => {
           isErasing = true;
+          removedObjects = [];
         });
 
         this.fabricCanvas.on('mouse:move', (options) => {
@@ -352,17 +421,23 @@ export class DrawingTools {
               const distance = this.distanceFromPointToLine(pointer, p1, p2);
               
               if (distance < this.currentWidth * 2) {
+                removedObjects.push(obj);
                 this.fabricCanvas.remove(obj);
-                this.fabricCanvas.renderAll();
               }
             } else if (obj.containsPoint(pointer)) {
+              removedObjects.push(obj);
               this.fabricCanvas.remove(obj);
-              this.fabricCanvas.renderAll();
             }
           });
+          this.fabricCanvas.renderAll();
         });
 
         this.fabricCanvas.on('mouse:up', () => {
+          if (isErasing && removedObjects.length > 0) {
+            // Add removed objects to undo stack
+            removedObjects.forEach(obj => this.undoStack.push(obj));
+            this.updateUndoButton();
+          }
           isErasing = false;
         });
         break;
@@ -406,5 +481,38 @@ export class DrawingTools {
     );
     
     return numerator / denominator;
+  }
+
+  saveCanvasState() {
+    const objects = this.fabricCanvas.getObjects();
+    if (objects.length > 0) {
+      this.undoStack.push([...objects]);
+      this.redoStack = [];
+      this.updateUndoRedoButtons();
+    }
+  }
+
+  saveToUndoStack() {
+    const objects = this.fabricCanvas.getObjects();
+    if (objects.length > 0) {
+      this.undoStack.push([...objects]);
+    }
+  }
+
+  saveToRedoStack() {
+    const objects = this.fabricCanvas.getObjects();
+    if (objects.length > 0) {
+      this.redoStack.push([...objects]);
+    }
+  }
+
+  loadCanvasState(objects) {
+    this.fabricCanvas.clear();
+    if (objects && objects.length > 0) {
+      objects.forEach(obj => {
+        this.fabricCanvas.add(obj);
+      });
+    }
+    this.fabricCanvas.renderAll();
   }
 }

@@ -8,6 +8,7 @@ export class DrawingTools {
     this.isDrawing = false;
     this.currentMode = 'pen';
     this.line = null;
+    this.isDrawingLine = false; // Add this to track line drawing state
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {
@@ -133,29 +134,34 @@ export class DrawingTools {
         this.fabricCanvas.selection = false;
         canvasWrapper.style.cursor = 'crosshair';
         
-        let isDrawingLine = false;
-        let startPoint = null;
-
         this.fabricCanvas.on('mouse:down', (options) => {
-          isDrawingLine = true;
-          const pointer = this.fabricCanvas.getPointer(options.e);
-          startPoint = pointer;
+          if (!this.isDrawingLine) {
+            const pointer = this.fabricCanvas.getPointer(options.e);
+            this.isDrawingLine = true;
 
-          this.line = new Line([pointer.x, pointer.y, pointer.x, pointer.y], {
-            stroke: this.currentColor,
-            strokeWidth: this.currentWidth,
-            selectable: true,
-            evented: true,
-            perPixelTargetFind: true,
-            hasBorders: true,
-            hasControls: true
-          });
+            this.line = new Line([pointer.x, pointer.y, pointer.x, pointer.y], {
+              stroke: this.currentColor,
+              strokeWidth: this.currentWidth,
+              selectable: true,
+              evented: true,
+              perPixelTargetFind: true,
+              hasBorders: true,
+              hasControls: true,
+              cornerStyle: 'circle',
+              cornerColor: 'rgba(0,0,255,0.5)',
+              cornerSize: 8,
+              transparentCorners: false
+            });
 
-          this.fabricCanvas.add(this.line);
+            this.fabricCanvas.add(this.line);
+          } else {
+            this.isDrawingLine = false;
+            this.line = null;
+          }
         });
 
         this.fabricCanvas.on('mouse:move', (options) => {
-          if (!isDrawingLine) return;
+          if (!this.isDrawingLine || !this.line) return;
           const pointer = this.fabricCanvas.getPointer(options.e);
 
           this.line.set({
@@ -166,13 +172,6 @@ export class DrawingTools {
           this.fabricCanvas.renderAll();
         });
 
-        this.fabricCanvas.on('mouse:up', () => {
-          isDrawingLine = false;
-          if (this.line) {
-            this.line.setCoords();
-          }
-          this.line = null;
-        });
         break;
 
       case 'eraser':
@@ -224,6 +223,10 @@ export class DrawingTools {
         this.fabricCanvas.getObjects().forEach(obj => {
           obj.selectable = true;
           obj.evented = true;
+          if (obj instanceof Line) {
+            obj.hasControls = true;
+            obj.hasBorders = true;
+          }
         });
         break;
 

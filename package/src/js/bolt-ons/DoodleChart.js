@@ -1,4 +1,4 @@
-import { Canvas, PencilBrush, Line } from 'fabric';
+import { Canvas, PencilBrush, Line, Rect, Circle } from 'fabric';
 
 export class DrawingTools {
   constructor() {
@@ -8,11 +8,14 @@ export class DrawingTools {
     this.isDrawing = false;
     this.currentMode = 'pen';
     this.line = null;
-    this.isDrawingLine = false; // Add this to track line drawing state
+    this.isDrawingLine = false;
+    this.shape = null;
+    this.isDrawingShape = false;
+    this.startPoint = null;
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {
-    // Updated toolbar with line tool
+    // Updated toolbar with new shape tools
     const toolbar = document.createElement('div');
     toolbar.className = 'drawing-toolbar';
     toolbar.innerHTML = `
@@ -21,6 +24,12 @@ export class DrawingTools {
       </button>
       <button class="drawing-tool" data-tool="line" title="Straight Line">
         <i class="fas fa-minus"></i>
+      </button>
+      <button class="drawing-tool" data-tool="rectangle" title="Rectangle">
+        <i class="fas fa-square"></i>
+      </button>
+      <button class="drawing-tool" data-tool="circle" title="Circle">
+        <i class="fas fa-circle"></i>
       </button>
       <button class="drawing-tool" data-tool="eraser" title="Eraser">
         <i class="fas fa-eraser"></i>
@@ -171,7 +180,109 @@ export class DrawingTools {
           
           this.fabricCanvas.renderAll();
         });
+        break;
 
+      case 'rectangle':
+        canvasWrapper.style.pointerEvents = 'auto';
+        this.fabricCanvas.isDrawingMode = false;
+        this.fabricCanvas.selection = false;
+        canvasWrapper.style.cursor = 'crosshair';
+        
+        this.fabricCanvas.on('mouse:down', (options) => {
+          const pointer = this.fabricCanvas.getPointer(options.e);
+          this.startPoint = pointer;
+          this.isDrawingShape = true;
+
+          this.shape = new Rect({
+            left: pointer.x,
+            top: pointer.y,
+            width: 0,
+            height: 0,
+            stroke: this.currentColor,
+            strokeWidth: this.currentWidth,
+            fill: 'transparent',
+            selectable: true,
+            evented: true
+          });
+
+          this.fabricCanvas.add(this.shape);
+        });
+
+        this.fabricCanvas.on('mouse:move', (options) => {
+          if (!this.isDrawingShape) return;
+          const pointer = this.fabricCanvas.getPointer(options.e);
+
+          const width = pointer.x - this.startPoint.x;
+          const height = pointer.y - this.startPoint.y;
+
+          this.shape.set({
+            width: Math.abs(width),
+            height: Math.abs(height),
+            left: width > 0 ? this.startPoint.x : pointer.x,
+            top: height > 0 ? this.startPoint.y : pointer.y
+          });
+          
+          this.fabricCanvas.renderAll();
+        });
+
+        this.fabricCanvas.on('mouse:up', () => {
+          this.isDrawingShape = false;
+          this.shape = null;
+          this.startPoint = null;
+        });
+        break;
+
+      case 'circle':
+        canvasWrapper.style.pointerEvents = 'auto';
+        this.fabricCanvas.isDrawingMode = false;
+        this.fabricCanvas.selection = false;
+        canvasWrapper.style.cursor = 'crosshair';
+        
+        this.fabricCanvas.on('mouse:down', (options) => {
+          const pointer = this.fabricCanvas.getPointer(options.e);
+          this.startPoint = pointer;
+          this.isDrawingShape = true;
+
+          this.shape = new Circle({
+            left: pointer.x,
+            top: pointer.y,
+            radius: 0,
+            stroke: this.currentColor,
+            strokeWidth: this.currentWidth,
+            fill: 'transparent',
+            selectable: true,
+            evented: true
+          });
+
+          this.fabricCanvas.add(this.shape);
+        });
+
+        this.fabricCanvas.on('mouse:move', (options) => {
+          if (!this.isDrawingShape) return;
+          const pointer = this.fabricCanvas.getPointer(options.e);
+
+          const radius = Math.sqrt(
+            Math.pow(pointer.x - this.startPoint.x, 2) +
+            Math.pow(pointer.y - this.startPoint.y, 2)
+          ) / 2;
+
+          const centerX = (this.startPoint.x + pointer.x) / 2;
+          const centerY = (this.startPoint.y + pointer.y) / 2;
+
+          this.shape.set({
+            radius: radius,
+            left: centerX - radius,
+            top: centerY - radius
+          });
+          
+          this.fabricCanvas.renderAll();
+        });
+
+        this.fabricCanvas.on('mouse:up', () => {
+          this.isDrawingShape = false;
+          this.shape = null;
+          this.startPoint = null;
+        });
         break;
 
       case 'eraser':

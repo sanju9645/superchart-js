@@ -7,11 +7,16 @@ import { Tidyup } from './bolt-ons/Tidyup.js';
 import { Styleblast } from './style/Styleblast.js';
 import { addGoogleFont, loadBoxiconsCSS } from './tool-kit/Utils.js';
 
+import { DoodleChartStyles } from './style/DoodleChartStyles.js';
+import { DrawingTools } from './bolt-ons/DoodleChart.js';
+
+DoodleChartStyles
 class Plotter {
   constructor() {
     this.charts = {};
     this.enhancedChartType = new Typify(this);
     Styleblast(); 
+    DoodleChartStyles();
   }
 
   #customBackgroundPlugin(backgroundColor) {
@@ -216,6 +221,11 @@ class Plotter {
       chartWrapperDiv.style.backgroundColor = backgroundColor;
     }
 
+    // Add drawing tools after creating the chart
+    const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
+    const drawingTools = new DrawingTools(); // Create an instance
+    drawingTools.createDrawingTools(chartParentDiv, chartCanvasId);
+    drawingTools.setTool('pen'); // This should enable drawing mode
     addGoogleFont(`#chart-wrapper-${chartCanvasId}`);
 
     loadBoxiconsCSS();

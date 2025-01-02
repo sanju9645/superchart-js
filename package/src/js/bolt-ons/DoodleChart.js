@@ -14,22 +14,47 @@ export class DrawingTools {
     this.startPoint = null;
     this.isTextMode = false;
     this.objectList = [];
+    this.isToolbarVisible = false;
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {
     const toolbar = document.createElement('div');
     toolbar.className = 'drawing-toolbar';
     
-    // Add position styling to toolbar with negative top margin
+    // Update toolbar positioning
     toolbar.style.position = 'absolute';
-    toolbar.style.top = '-40px'; // Move toolbar upwards
-    toolbar.style.left = '0';
+    toolbar.style.top = '-40px';
+    toolbar.style.left = '40px'; // Move toolbar to the right to make space for the button
     toolbar.style.zIndex = '101';
     toolbar.style.backgroundColor = 'white';
     toolbar.style.padding = '5px';
     toolbar.style.borderRadius = '5px';
     toolbar.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-    
+    toolbar.style.display = 'none';
+    toolbar.style.marginLeft = '10px'; // Add margin for spacing
+
+    // Update toggle button positioning with better padding
+    const toggleButton = document.createElement('button');
+    toggleButton.className = 'drawing-toggle';
+    toggleButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+    toggleButton.style.position = 'absolute';
+    toggleButton.style.top = '-40px';
+    toggleButton.style.left = '5px'; // Add left padding from the border
+    toggleButton.style.zIndex = '102';
+    toggleButton.style.padding = '5px 10px';
+    toggleButton.style.borderRadius = '5px';
+    toggleButton.style.backgroundColor = 'white';
+    toggleButton.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+    toggleButton.style.border = 'none';
+    toggleButton.style.cursor = 'pointer';
+    toggleButton.style.width = '30px';
+    toggleButton.style.display = 'flex'; // Add flex display
+    toggleButton.style.justifyContent = 'center'; // Center the icon horizontally
+    toggleButton.style.alignItems = 'center'; // Center the icon vertically
+
+    // Update toolbar left position to accommodate the new button position
+    toolbar.style.left = '45px'; // Adjust toolbar position accordingly
+
     toolbar.innerHTML = `
       <button class="drawing-tool" data-tool="pen" title="Free Draw">
         <i class="fas fa-pen"></i>
@@ -81,21 +106,22 @@ export class DrawingTools {
       selection: true
     });
 
-    // Add toolbar to the canvas wrapper
+    // Add toolbar and toggle button to the canvas wrapper
     const canvasWrapper = this.fabricCanvas.wrapperEl;
-    canvasWrapper.style.position = 'relative'; // Ensure relative positioning
+    canvasWrapper.style.position = 'relative';
     canvasWrapper.appendChild(toolbar);
+    canvasWrapper.appendChild(toggleButton);
+
+    // Add toggle functionality
+    toggleButton.addEventListener('click', () => {
+      this.isToolbarVisible = !this.isToolbarVisible;
+      toolbar.style.display = this.isToolbarVisible ? 'block' : 'none';
+      toggleButton.style.backgroundColor = this.isToolbarVisible ? '#e6e6e6' : 'white';
+    });
 
     this.fabricCanvas.freeDrawingBrush = new PencilBrush(this.fabricCanvas);
     this.fabricCanvas.freeDrawingBrush.width = this.currentWidth;
     this.fabricCanvas.freeDrawingBrush.color = this.currentColor;
-
-    // const canvasWrapper = this.fabricCanvas.wrapperEl;
-    // canvasWrapper.style.position = 'absolute';
-    // canvasWrapper.style.top = '0';
-    // canvasWrapper.style.left = '0';
-    // canvasWrapper.style.zIndex = '100';
-    // canvasWrapper.style.pointerEvents = 'none';
 
     this.setupEventListeners(toolbar);
 

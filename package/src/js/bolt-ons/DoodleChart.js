@@ -20,11 +20,15 @@ export class DrawingTools {
     const toolbar = document.createElement('div');
     toolbar.className = 'drawing-toolbar';
     
-    // Add position styling to toolbar
+    // Add position styling to toolbar with negative top margin
     toolbar.style.position = 'absolute';
-    toolbar.style.top = '0';
+    toolbar.style.top = '-40px'; // Move toolbar upwards
     toolbar.style.left = '0';
-    toolbar.style.zIndex = '101'; // Just above canvas (which is 100)
+    toolbar.style.zIndex = '101';
+    toolbar.style.backgroundColor = 'white';
+    toolbar.style.padding = '5px';
+    toolbar.style.borderRadius = '5px';
+    toolbar.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
     
     toolbar.innerHTML = `
       <button class="drawing-tool" data-tool="pen" title="Free Draw">
@@ -271,41 +275,40 @@ export class DrawingTools {
         canvasWrapper.style.cursor = 'crosshair';
         
         this.fabricCanvas.on('mouse:down', (options) => {
-          if (!this.isDrawingLine) {
-            const pointer = this.fabricCanvas.getPointer(options.e);
-            this.isDrawingLine = true;
-
-            this.line = new Line([pointer.x, pointer.y, pointer.x, pointer.y], {
-              stroke: this.currentColor,
-              strokeWidth: this.currentWidth,
-              selectable: true,
-              evented: true,
-              perPixelTargetFind: true,
-              hasBorders: true,
-              hasControls: true,
-              cornerStyle: 'circle',
-              cornerColor: 'rgba(0,0,255,0.5)',
-              cornerSize: 8,
-              transparentCorners: false
-            });
-
-            this.fabricCanvas.add(this.line);
-          } else {
-            this.isDrawingLine = false;
-            this.line = null;
-          }
-        });
-
-        this.fabricCanvas.on('mouse:move', (options) => {
-          if (!this.isDrawingLine || !this.line) return;
+          this.isDrawingLine = true;
           const pointer = this.fabricCanvas.getPointer(options.e);
-
+          this.startPoint = pointer;
+          
+          this.line = new Line([pointer.x, pointer.y, pointer.x, pointer.y], {
+            stroke: this.currentColor,
+            strokeWidth: this.currentWidth,
+            selectable: false
+          });
+          
+          this.fabricCanvas.add(this.line);
+        });
+        
+        this.fabricCanvas.on('mouse:move', (options) => {
+          if (!this.isDrawingLine) return;
+          
+          const pointer = this.fabricCanvas.getPointer(options.e);
           this.line.set({
             x2: pointer.x,
             y2: pointer.y
           });
-          
           this.fabricCanvas.renderAll();
+        });
+        
+        this.fabricCanvas.on('mouse:up', () => {
+          if (!this.isDrawingLine) return;
+          this.isDrawingLine = false;
+          this.line.setCoords();
+          
+          // Reset to move tool after drawing
+          const moveButton = document.querySelector('[data-tool="move"]');
+          if (moveButton) {
+            moveButton.click();
+          }
         });
         break;
 
@@ -316,10 +319,10 @@ export class DrawingTools {
         canvasWrapper.style.cursor = 'crosshair';
         
         this.fabricCanvas.on('mouse:down', (options) => {
+          this.isDrawingShape = true;
           const pointer = this.fabricCanvas.getPointer(options.e);
           this.startPoint = pointer;
-          this.isDrawingShape = true;
-
+          
           this.shape = new Rect({
             left: pointer.x,
             top: pointer.y,
@@ -328,34 +331,35 @@ export class DrawingTools {
             stroke: this.currentColor,
             strokeWidth: this.currentWidth,
             fill: 'transparent',
-            selectable: true,
-            evented: true
-          });
-
-          this.fabricCanvas.add(this.shape);
-        });
-
-        this.fabricCanvas.on('mouse:move', (options) => {
-          if (!this.isDrawingShape) return;
-          const pointer = this.fabricCanvas.getPointer(options.e);
-
-          const width = pointer.x - this.startPoint.x;
-          const height = pointer.y - this.startPoint.y;
-
-          this.shape.set({
-            width: Math.abs(width),
-            height: Math.abs(height),
-            left: width > 0 ? this.startPoint.x : pointer.x,
-            top: height > 0 ? this.startPoint.y : pointer.y
+            selectable: false
           });
           
+          this.fabricCanvas.add(this.shape);
+        });
+        
+        this.fabricCanvas.on('mouse:move', (options) => {
+          if (!this.isDrawingShape) return;
+          
+          const pointer = this.fabricCanvas.getPointer(options.e);
+          this.shape.set({
+            width: Math.abs(pointer.x - this.startPoint.x),
+            height: Math.abs(pointer.y - this.startPoint.y),
+            left: Math.min(this.startPoint.x, pointer.x),
+            top: Math.min(this.startPoint.y, pointer.y)
+          });
           this.fabricCanvas.renderAll();
         });
-
+        
         this.fabricCanvas.on('mouse:up', () => {
+          if (!this.isDrawingShape) return;
           this.isDrawingShape = false;
-          this.shape = null;
-          this.startPoint = null;
+          this.shape.setCoords();
+          
+          // Reset to move tool after drawing
+          const moveButton = document.querySelector('[data-tool="move"]');
+          if (moveButton) {
+            moveButton.click();
+          }
         });
         break;
 
@@ -366,10 +370,10 @@ export class DrawingTools {
         canvasWrapper.style.cursor = 'crosshair';
         
         this.fabricCanvas.on('mouse:down', (options) => {
+          this.isDrawingShape = true;
           const pointer = this.fabricCanvas.getPointer(options.e);
           this.startPoint = pointer;
-          this.isDrawingShape = true;
-
+          
           this.shape = new Circle({
             left: pointer.x,
             top: pointer.y,
@@ -377,38 +381,39 @@ export class DrawingTools {
             stroke: this.currentColor,
             strokeWidth: this.currentWidth,
             fill: 'transparent',
-            selectable: true,
-            evented: true
+            selectable: false
           });
-
+          
           this.fabricCanvas.add(this.shape);
         });
-
+        
         this.fabricCanvas.on('mouse:move', (options) => {
           if (!this.isDrawingShape) return;
+          
           const pointer = this.fabricCanvas.getPointer(options.e);
-
           const radius = Math.sqrt(
             Math.pow(pointer.x - this.startPoint.x, 2) +
             Math.pow(pointer.y - this.startPoint.y, 2)
           ) / 2;
-
-          const centerX = (this.startPoint.x + pointer.x) / 2;
-          const centerY = (this.startPoint.y + pointer.y) / 2;
-
+          
           this.shape.set({
             radius: radius,
-            left: centerX - radius,
-            top: centerY - radius
+            left: this.startPoint.x - radius,
+            top: this.startPoint.y - radius
           });
-          
           this.fabricCanvas.renderAll();
         });
-
+        
         this.fabricCanvas.on('mouse:up', () => {
+          if (!this.isDrawingShape) return;
           this.isDrawingShape = false;
-          this.shape = null;
-          this.startPoint = null;
+          this.shape.setCoords();
+          
+          // Reset to move tool after drawing
+          const moveButton = document.querySelector('[data-tool="move"]');
+          if (moveButton) {
+            moveButton.click();
+          }
         });
         break;
 

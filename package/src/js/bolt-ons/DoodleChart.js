@@ -15,6 +15,8 @@ export class DrawingTools {
     this.isTextMode = false;
     this.objectList = [];
     this.isToolbarVisible = false;
+    this.undoStack = [];
+    this.redoStack = [];
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {
@@ -227,11 +229,14 @@ export class DrawingTools {
     });
   }
 
-  saveState() {
-    const objects = this.fabricCanvas.getObjects();
-    if (objects.length > 0) {
-      this.canvasState.push([...objects]);
-      this.updateUndoButton();
+  saveState(chartId) {
+    const canvas = document.getElementById(chartId);
+    if (canvas) {
+      // Save the current state before pushing to undoStack
+      const imageData = canvas.toDataURL();
+      this.undoStack.push(imageData);
+      // Clear redo stack when new action is performed
+      this.redoStack = [];
     }
   }
 

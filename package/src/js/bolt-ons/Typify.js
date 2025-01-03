@@ -1,4 +1,5 @@
 import { SelectboxJS } from 'selectbox-js';
+import { DrawingTools } from './DoodleChart.js';
 
 class Typify {
   constructor(enhancedChart) {
@@ -161,16 +162,11 @@ class Typify {
         });
         chartTypeWrapper.appendChild(chatTypeDropdwonContainer);
 
-
-        const toolBoxContainer = document.createElement('div');
-        toolBoxContainer.className = 'tool-box-container-div';
-        toolBoxContainer.id = `tool-box-container-div-${canvasId}`;
-
-        const toolBoxIcon = document.createElement('i');
-        toolBoxIcon.className = 'fa-solid fa-screwdriver-wrench';
-        toolBoxContainer.appendChild(toolBoxIcon);
-        chartTypeWrapper.appendChild(toolBoxContainer);
-
+        if (chartParams?.drawToolBox) {
+          const drawingTools = new DrawingTools();
+          const toolBoxContainer = drawingTools.createToolBoxContainer(canvasId);
+          chartTypeWrapper.appendChild(toolBoxContainer);
+        }
         chartWrapper.appendChild(chartTypeWrapper);
       }
     }

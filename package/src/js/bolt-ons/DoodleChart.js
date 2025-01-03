@@ -32,29 +32,13 @@ export class DrawingTools {
 
     // Create toggle button if it doesn't exist
     let toggleButton = document.getElementById(`tool-box-container-div-${chartCanvasId}`);
-    console.log(toggleButton)
+    
     if (!toggleButton) {
-        toggleButton = document.createElement('div');
-        toggleButton.id = `tool-box-container-div-${chartCanvasId}`;
-        toggleButton.className = 'tool-box-container-div';
-        const toolBoxIcon = document.createElement('i');
-        toolBoxIcon.className = 'fa-solid fa-screwdriver-wrench';
-        toggleButton.appendChild(toolBoxIcon);
+      toggleButton = this.createToolBoxContainer(chartCanvasId);
     }
 
     const toolbar = document.createElement('div');
     toolbar.className = 'drawing-toolbar';
-    
-    // Update toolbar positioning
-    toolbar.style.position = 'absolute';
-    toolbar.style.top = '40px';  // Position below the toggle button
-    toolbar.style.left = '0';
-    toolbar.style.zIndex = '101';
-    toolbar.style.backgroundColor = 'white';
-    toolbar.style.padding = '5px';
-    toolbar.style.borderRadius = '5px';
-    toolbar.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-    toolbar.style.display = 'none';  // Hidden by default
 
     // Find the existing toggle button
     if (!toggleButton) {
@@ -63,34 +47,35 @@ export class DrawingTools {
     }
 
     toolbar.innerHTML = `
-      <button class="drawing-tool" data-tool="pen" title="Free Draw">
-        <i class="fas fa-pen"></i>
+      <button class="drawing-tool tool-box-icon" data-tool="pen" title="Free Draw">
+        <i class="fa-solid fa-pen-nib"></i>
       </button>
-      <button class="drawing-tool" data-tool="line" title="Straight Line">
-        <i class="fas fa-minus"></i>
+      <button class="drawing-tool tool-box-icon" data-tool="line" title="Straight Line">
+        <i class="fa-solid fa-minus"></i>
       </button>
-      <button class="drawing-tool" data-tool="rectangle" title="Rectangle">
-        <i class="fas fa-square"></i>
+      <button class="drawing-tool tool-box-icon" data-tool="rectangle" title="Rectangle">
+        <i class="fa-regular fa-square"></i>
       </button>
-      <button class="drawing-tool" data-tool="circle" title="Circle">
-        <i class="fas fa-circle"></i>
+      <button class="drawing-tool tool-box-icon" data-tool="circle" title="Circle">
+        <i class="fa-regular fa-circle"></i>
       </button>
-      <button class="drawing-tool" data-tool="text" title="Add Text">
-        <i class="fas fa-font"></i>
+      <button class="drawing-tool tool-box-icon" data-tool="text" title="Add Text">
+        <i class="fa-solid fa-font"></i>
       </button>
-      <button class="drawing-tool" data-tool="eraser" title="Eraser">
-        <i class="fas fa-eraser"></i>
+      <button class="drawing-tool tool-box-icon" data-tool="eraser" title="Eraser">
+        <i class="fa-solid fa-eraser"></i>
       </button>
-      <button class="drawing-tool" data-tool="move" title="Move">
-        <i class="fas fa-arrows-alt"></i>
+      <button class="drawing-tool tool-box-icon" data-tool="move" title="Move">
+        <i class="fa-solid fa-up-down-left-right"></i>
       </button>
-      <input type="color" class="color-picker" value="#000000" title="Color">
+      <input type="color" class="color-picker tool-box-icon" value="#000000" title="Color">
       <input type="range" class="width-slider" min="1" max="72" value="2" title="Size">
-      <button class="undo-canvas" title="Undo">
-        <i class="fas fa-undo"></i>
+      
+      <button class="undo-canvas tool-box-icon" title="Undo">
+        <i class="fa-solid fa-arrow-rotate-left"></i>
       </button>
-      <button class="clear-canvas" title="Clear Drawing">
-        <i class="fas fa-trash"></i>
+      <button class="clear-canvas tool-box-icon" title="Clear Drawing">
+        <i class="fa-solid fa-trash-can"></i>
       </button>
     `;
 
@@ -135,7 +120,11 @@ export class DrawingTools {
     // Update toggle functionality
     toggleButton.addEventListener('click', () => {
       this.isToolbarVisible = !this.isToolbarVisible;
-      toolbar.style.display = this.isToolbarVisible ? 'block' : 'none';
+      toolbar.style.display = this.isToolbarVisible ? 'flex' : 'none';
+      toolbar.style.justifyContent = 'center';
+      toolbar.style.alignItems = 'center';
+      toolbar.style.gap = '4px';
+
       toggleButton.style.backgroundColor = this.isToolbarVisible ? '#e6e6e6' : 'white';
       
       // Update z-index of the fabric canvas wrapper
@@ -607,5 +596,17 @@ export class DrawingTools {
       });
     }
     this.fabricCanvas.renderAll();
+  }
+
+  createToolBoxContainer(canvasId) {
+    const toolBoxContainer = document.createElement('div');
+    toolBoxContainer.className = 'tool-box-container-div';
+    toolBoxContainer.id = `tool-box-container-div-${canvasId}`;
+
+    const toolBoxIcon = document.createElement('i');
+    toolBoxIcon.className = 'fa-solid fa-screwdriver-wrench';
+    toolBoxContainer.appendChild(toolBoxIcon);
+
+    return toolBoxContainer;
   }
 }

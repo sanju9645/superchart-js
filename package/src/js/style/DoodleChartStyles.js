@@ -6,14 +6,18 @@ const styleRules = `
 
 .drawing-toolbar {
   position: absolute;
-  top: 10px;
+  top: -14.5%;
   right: 10px;
+  left: 50px;
   background: white;
+  background-color: white;
   padding: 5px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  z-index: 1000;
   width: fit-content;
+  margin: 5px;
+  z-index: 101;
+  display: none;
 }
 
 .canvas-container {
@@ -25,14 +29,6 @@ const styleRules = `
 
 .drawing-tool.active {
   background-color: #e0e0e0;
-}
-
-.drawing-toolbar {
-  background-color: white;
-  padding: 5px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  margin: 5px;
 }
 
 .tool-box-container-div {
@@ -48,6 +44,14 @@ const styleRules = `
   margin-left: 10px;
 }
 
+.tool-box-icon {
+  border: 1px solid #795548;
+  height: 30px;
+  width: 30px;
+  box-shadow: none;
+  background-color: #fff;
+  border-radius: 4px;
+}
 `;
 
 const addStyleSheet = () => {

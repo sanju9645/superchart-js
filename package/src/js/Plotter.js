@@ -223,10 +223,13 @@ class Plotter {
 
     // Add drawing tools after creating the chart
     const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
-    // const chartParentDiv = document.getElementById(`chart-wrapper-${chartCanvasId}`);
-    const drawingTools = new DrawingTools(); // Create an instance
-    drawingTools.createDrawingTools(chartParentDiv, chartCanvasId);
-    drawingTools.setTool('pen'); // This should enable drawing mode
+
+    if (chartParams?.drawToolBox) {
+      const drawingTools = new DrawingTools(); // Create an instance
+      drawingTools.createDrawingTools(chartParentDiv, chartCanvasId);
+      drawingTools.setTool('pen');
+    }
+
     addGoogleFont(`#chart-wrapper-${chartCanvasId}`);
 
     loadBoxiconsCSS();

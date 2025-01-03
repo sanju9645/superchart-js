@@ -164,6 +164,7 @@ class Typify {
 
         const toolBoxContainer = document.createElement('div');
         toolBoxContainer.className = 'tool-box-container-div';
+        toolBoxContainer.id = `tool-box-container-div-${canvasId}`;
 
         const toolBoxIcon = document.createElement('i');
         toolBoxIcon.className = 'fa-solid fa-screwdriver-wrench';

@@ -31,16 +31,15 @@ export class DrawingTools {
     }
 
     // Create toggle button if it doesn't exist
-    let toggleButton = document.querySelector('.drawing-toggle');
+    let toggleButton = document.getElementById(`tool-box-container-div-${chartCanvasId}`);
+    console.log(toggleButton)
     if (!toggleButton) {
-        toggleButton = document.createElement('button');
-        toggleButton.className = 'drawing-toggle';
-        toggleButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
-        toggleButton.style.position = 'absolute';
-        toggleButton.style.top = '0';
-        toggleButton.style.left = '0';
-        toggleButton.style.zIndex = '101';
-        parentDiv.appendChild(toggleButton);
+        toggleButton = document.createElement('div');
+        toggleButton.id = `tool-box-container-div-${chartCanvasId}`;
+        toggleButton.className = 'tool-box-container-div';
+        const toolBoxIcon = document.createElement('i');
+        toolBoxIcon.className = 'fa-solid fa-screwdriver-wrench';
+        toggleButton.appendChild(toolBoxIcon);
     }
 
     const toolbar = document.createElement('div');
@@ -48,18 +47,16 @@ export class DrawingTools {
     
     // Update toolbar positioning
     toolbar.style.position = 'absolute';
-    toolbar.style.top = '-40px';
-    toolbar.style.left = '40px';
+    toolbar.style.top = '40px';  // Position below the toggle button
+    toolbar.style.left = '0';
     toolbar.style.zIndex = '101';
     toolbar.style.backgroundColor = 'white';
     toolbar.style.padding = '5px';
     toolbar.style.borderRadius = '5px';
     toolbar.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-    toolbar.style.display = 'none';
-    toolbar.style.marginLeft = '10px';
+    toolbar.style.display = 'none';  // Hidden by default
 
     // Find the existing toggle button
-    // const toggleButton = document.querySelector('.drawing-toggle');
     if (!toggleButton) {
         console.error('Drawing toggle button not found');
         return;
@@ -133,7 +130,7 @@ export class DrawingTools {
     const canvasWrapper = this.fabricCanvas.wrapperEl;
     canvasWrapper.style.position = 'relative';
     canvasWrapper.appendChild(toolbar);
-    canvasWrapper.appendChild(toggleButton);
+    // canvasWrapper.appendChild(toggleButton);
 
     // Update toggle functionality
     toggleButton.addEventListener('click', () => {

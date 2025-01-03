@@ -151,12 +151,25 @@ class Typify {
       if (chartParams?.toggleChartTypeSwitch) {
         const chartTypeWrapper = document.createElement('div');
         chartTypeWrapper.className = 'chart-type-wrapper';
-        chartTypeWrapper.style.marginTop = "2%";
+
+        const chatTypeDropdwonContainer = document.createElement('div');
+        chatTypeDropdwonContainer.className = 'chat-type-dropdwon-container';
 
         chartParams.legends.forEach((datasetInput) => {
           const chatTypeDropdwonWrapper = this.#createChartTypeDropdown(chartParams?.chartTitle, datasetInput);
-          chartTypeWrapper.appendChild(chatTypeDropdwonWrapper);
+          chatTypeDropdwonContainer.appendChild(chatTypeDropdwonWrapper);
         });
+        chartTypeWrapper.appendChild(chatTypeDropdwonContainer);
+
+
+        const toolBoxContainer = document.createElement('div');
+        toolBoxContainer.className = 'tool-box-container-div';
+
+        const toolBoxIcon = document.createElement('i');
+        toolBoxIcon.className = 'fa-solid fa-screwdriver-wrench';
+        toolBoxContainer.appendChild(toolBoxIcon);
+        chartTypeWrapper.appendChild(toolBoxContainer);
+
         chartWrapper.appendChild(chartTypeWrapper);
       }
     }

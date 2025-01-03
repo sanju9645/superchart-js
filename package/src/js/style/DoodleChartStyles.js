@@ -34,6 +34,20 @@ const styleRules = `
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   margin: 5px;
 }
+
+.tool-box-container-div {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+}
+
 `;
 
 const addStyleSheet = () => {

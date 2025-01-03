@@ -25,11 +25,12 @@ const styleRules = `
   .chart-type-wrapper {
     order: -1;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-start;
     width: 100%;
     gap: 2%;
+    margin-top: 2%;
   }
 
   .chart-type-dropdown {
@@ -40,6 +41,13 @@ const styleRules = `
     margin-right: 1% !important;
     font-family: sans-serif;
     font-size: small;
+  }
+
+  .chat-type-dropdwon-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-right: 20px;
   }
 
   .chart-type-label {

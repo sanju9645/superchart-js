@@ -18,42 +18,52 @@ export class DrawingTools {
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {
+    // First check if the parent div and canvas exist
+    if (!parentDiv || !chartCanvasId) {
+        console.error('Parent div or canvas ID not provided');
+        return;
+    }
+
+    const chartCanvas = document.getElementById(chartCanvasId);
+    if (!chartCanvas) {
+        console.error('Chart canvas not found:', chartCanvasId);
+        return;
+    }
+
+    // Create toggle button if it doesn't exist
+    let toggleButton = document.querySelector('.drawing-toggle');
+    if (!toggleButton) {
+        toggleButton = document.createElement('button');
+        toggleButton.className = 'drawing-toggle';
+        toggleButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+        toggleButton.style.position = 'absolute';
+        toggleButton.style.top = '0';
+        toggleButton.style.left = '0';
+        toggleButton.style.zIndex = '101';
+        parentDiv.appendChild(toggleButton);
+    }
+
     const toolbar = document.createElement('div');
     toolbar.className = 'drawing-toolbar';
     
     // Update toolbar positioning
     toolbar.style.position = 'absolute';
     toolbar.style.top = '-40px';
-    toolbar.style.left = '40px'; // Move toolbar to the right to make space for the button
+    toolbar.style.left = '40px';
     toolbar.style.zIndex = '101';
     toolbar.style.backgroundColor = 'white';
     toolbar.style.padding = '5px';
     toolbar.style.borderRadius = '5px';
     toolbar.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
     toolbar.style.display = 'none';
-    toolbar.style.marginLeft = '10px'; // Add margin for spacing
+    toolbar.style.marginLeft = '10px';
 
-    // Update toggle button positioning with better padding
-    const toggleButton = document.createElement('button');
-    toggleButton.className = 'drawing-toggle';
-    toggleButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
-    toggleButton.style.position = 'absolute';
-    toggleButton.style.top = '-40px';
-    toggleButton.style.left = '5px'; // Add left padding from the border
-    toggleButton.style.zIndex = '102';
-    toggleButton.style.padding = '5px 10px';
-    toggleButton.style.borderRadius = '5px';
-    toggleButton.style.backgroundColor = 'white';
-    toggleButton.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-    toggleButton.style.border = 'none';
-    toggleButton.style.cursor = 'pointer';
-    toggleButton.style.width = '30px';
-    toggleButton.style.display = 'flex'; // Add flex display
-    toggleButton.style.justifyContent = 'center'; // Center the icon horizontally
-    toggleButton.style.alignItems = 'center'; // Center the icon vertically
-
-    // Update toolbar left position to accommodate the new button position
-    toolbar.style.left = '45px'; // Adjust toolbar position accordingly
+    // Find the existing toggle button
+    // const toggleButton = document.querySelector('.drawing-toggle');
+    if (!toggleButton) {
+        console.error('Drawing toggle button not found');
+        return;
+    }
 
     toolbar.innerHTML = `
       <button class="drawing-tool" data-tool="pen" title="Free Draw">
@@ -88,7 +98,6 @@ export class DrawingTools {
     `;
 
     // Get canvas wrapper (created by fabric.js)
-    const chartCanvas = document.getElementById(chartCanvasId);
     const rect = chartCanvas.getBoundingClientRect();
 
     const drawingCanvas = document.createElement('canvas');
@@ -96,15 +105,29 @@ export class DrawingTools {
     drawingCanvas.style.position = 'absolute';
     drawingCanvas.style.top = '0';
     drawingCanvas.style.left = '0';
-    drawingCanvas.style.zIndex = '100';
     parentDiv.appendChild(drawingCanvas);
 
-    this.fabricCanvas = new Canvas(drawingCanvas.id, {
-      width: rect.width,
-      height: rect.height,
-      isDrawingMode: false,
-      selection: true
-    });
+    try {
+        this.fabricCanvas = new Canvas(drawingCanvas.id, {
+            width: rect.width,
+            height: rect.height,
+            isDrawingMode: false,
+            selection: true
+        });
+    } catch (error) {
+        console.error('Failed to initialize fabric canvas:', error);
+        return;
+    }
+
+    // Only proceed with setup if fabric canvas was created successfully
+    if (!this.fabricCanvas || !this.fabricCanvas.wrapperEl) {
+        console.error('Fabric canvas not properly initialized');
+        return;
+    }
+
+    // Immediately set the z-index of the fabric canvas wrapper
+    this.fabricCanvas.wrapperEl.style.zIndex = '-1';
+    this.fabricCanvas.wrapperEl.style.position = 'absolute';
 
     // Add toolbar and toggle button to the canvas wrapper
     const canvasWrapper = this.fabricCanvas.wrapperEl;
@@ -112,11 +135,19 @@ export class DrawingTools {
     canvasWrapper.appendChild(toolbar);
     canvasWrapper.appendChild(toggleButton);
 
-    // Add toggle functionality
+    // Update toggle functionality
     toggleButton.addEventListener('click', () => {
       this.isToolbarVisible = !this.isToolbarVisible;
       toolbar.style.display = this.isToolbarVisible ? 'block' : 'none';
       toggleButton.style.backgroundColor = this.isToolbarVisible ? '#e6e6e6' : 'white';
+      
+      // Update z-index of the fabric canvas wrapper
+      this.fabricCanvas.wrapperEl.style.zIndex = this.isToolbarVisible ? '100' : '-1';
+      
+      if (!this.isToolbarVisible) {
+        this.fabricCanvas.discardActiveObject();
+        this.fabricCanvas.requestRenderAll();
+      }
     });
 
     this.fabricCanvas.freeDrawingBrush = new PencilBrush(this.fabricCanvas);
@@ -235,6 +266,12 @@ export class DrawingTools {
   }
 
   setTool(tool) {
+    // Add safety check at the start of setTool
+    if (!this.fabricCanvas || !this.fabricCanvas.wrapperEl) {
+        console.error('Canvas not properly initialized');
+        return;
+    }
+
     const canvasWrapper = this.fabricCanvas.wrapperEl;
     this.currentMode = tool;
 

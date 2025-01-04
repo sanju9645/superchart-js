@@ -221,10 +221,9 @@ class Plotter {
     const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
 
     if (chartParams?.drawToolBox) {
+      const doodleChart = new DoodleChart();
       const toolboxWrapper = document.createElement('div');
       toolboxWrapper.className = 'toolbox-wrapper';
-
-      const doodleChart = new DoodleChart();
       const toolBoxContainer = doodleChart.createToolBoxContainer(chartCanvasId);
       toolboxWrapper.appendChild(toolBoxContainer);
       const chartWrapperDov = document.getElementById(`chart-wrapper-${chartCanvasId}`);

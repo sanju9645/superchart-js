@@ -169,33 +169,32 @@ const styleRules = `
   }
 
   /* Right side - Dropdown */
-.chat-type-dropdwon-container {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
+  .chat-type-dropdwon-container {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
 
-/* Chart type dropdown specific styles */
-.chart-type-dropdown {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: auto;
-}
+  /* Chart type dropdown specific styles */
+  .chart-type-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+  }
 
-/* If needed, ensure the dropdown container doesn't wrap */
-.chart-type-dropdown-container {
-  white-space: nowrap;
-}
+  /* If needed, ensure the dropdown container doesn't wrap */
+  .chart-type-dropdown-container {
+    white-space: nowrap;
+  }
 
-
-.chat-type-dropdwon-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;  /* Add this line */
-  gap: 20px;
-  margin-right: 20px;
-}
+  .chat-type-dropdwon-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;  /* Add this line */
+    gap: 20px;
+    margin-right: 20px;
+  }
 `;
 
 const addStyleSheet = () => {

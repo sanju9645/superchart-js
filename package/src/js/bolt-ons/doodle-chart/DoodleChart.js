@@ -23,6 +23,14 @@ export class DoodleChart {
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {
+    /*
+    chartParentDiv is the container element where the chart canvas lives, so the drawing tools need to be associated with this specific container to ensure they affect the correct chart (especially if there are multiple charts on the page)
+    chartCanvasId is needed to uniquely identify which canvas the drawing tools should interact with. This is particularly important because:
+    It allows the drawing tools to find and modify the specific canvas element
+    It helps maintain separation between different charts' drawing functionalities when multiple charts exist on the page
+    It can be used to namespace event listeners and drawing states for each specific chart
+    */
+
     if (!parentDiv || !chartCanvasId) {
       console.error('Parent div or canvas ID not provided');
       return;
@@ -113,5 +121,10 @@ export class DoodleChart {
 
   createToolBoxContainer(canvasId) {
     return this.toolbarManager.createToolBoxContainer(canvasId);
+  }
+
+  setupDrawingContext(parentDiv, canvasId) {
+    this.createDrawingTools(parentDiv, canvasId);
+    this.setTool('pen');
   }
 }

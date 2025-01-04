@@ -151,6 +151,19 @@ class Plotter {
     return chartParams;
   }
 
+  #initializeDrawingToolbox(chartParentDiv, chartCanvasId, chartWrapperDiv) {
+    const doodleChart = new DoodleChart();
+    const toolBoxContainer = doodleChart.createToolBoxContainer(chartCanvasId);
+    
+    const toolboxWrapper = document.createElement('div');
+    toolboxWrapper.className = 'toolbox-wrapper';
+    toolboxWrapper.appendChild(toolBoxContainer);
+    
+    chartWrapperDiv.appendChild(toolboxWrapper);
+
+    doodleChart.setupDrawingContext(chartParentDiv, chartCanvasId);
+  }
+
   plotChart(chartParams) {
     if (!this.#validateChartParams(chartParams)) {
       return;
@@ -221,15 +234,7 @@ class Plotter {
     const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
 
     if (chartParams?.drawToolBox) {
-      const doodleChart = new DoodleChart();
-      const toolboxWrapper = document.createElement('div');
-      toolboxWrapper.className = 'toolbox-wrapper';
-      const toolBoxContainer = doodleChart.createToolBoxContainer(chartCanvasId);
-      toolboxWrapper.appendChild(toolBoxContainer);
-      const chartWrapperDov = document.getElementById(`chart-wrapper-${chartCanvasId}`);
-      chartWrapperDov.appendChild(toolboxWrapper);
-      doodleChart.createDrawingTools(chartParentDiv, chartCanvasId);
-      doodleChart.setTool('pen');   
+      this.#initializeDrawingToolbox(chartParentDiv, chartCanvasId, chartWrapperDiv)
     }
 
     addGoogleFont(`#chart-wrapper-${chartCanvasId}`);

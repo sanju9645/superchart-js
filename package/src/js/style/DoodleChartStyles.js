@@ -1,4 +1,3 @@
-
 const styleRules = `
 .chart-parent-div {
   position: relative !important;
@@ -31,37 +30,6 @@ const styleRules = `
   background-color: #e0e0e0;
 }
 
-// .tool-box-container-div {
-//   border: 1px solid #ddd;
-//   padding: 10px;
-//   border-radius: 4px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   cursor: pointer;
-//   height: 20px;
-//   width: 20px;
-//   margin-left: 10px;
-// }
-
-// .tool-box-container-div {
-//   padding: 5px;
-//   border-radius: 50%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   cursor: pointer;
-//   height: 20px;
-//   width: 20px;
-//   margin-left: 10px;
-//   position: absolute;
-//   z-index: 1000;
-//   background: #fff;
-//   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-//   transition: all 0.3s ease;
-// }
-
-
 .tool-box-icon {
   border: 1px solid #795548;
   height: 30px;
@@ -70,7 +38,6 @@ const styleRules = `
   background-color: #fff;
   border-radius: 4px;
 }
-
 
 .tool-box-container-div {
   position: absolute;
@@ -182,6 +149,43 @@ const styleRules = `
   #widthPicker {
     width: 80px;
   }
+}
+
+/* Base container */
+.chart-type-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+  padding: 0 10px;
+}
+
+/* Left side - Tool box */
+.tool-box-container-div {
+  position: relative;
+  flex: 0 0 auto;
+  margin-right: 10px;
+}
+
+/* Right side - Dropdown */
+.chat-type-dropdwon-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Chart type dropdown specific styles */
+.chart-type-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: auto;
+}
+
+/* If needed, ensure the dropdown container doesn't wrap */
+.chart-type-dropdown-container {
+  white-space: nowrap;
 }
 `;
 

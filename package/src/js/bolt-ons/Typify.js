@@ -52,9 +52,6 @@ class Typify {
     selectWrapper.style.gap = '2%'; 
     selectWrapper.style.marginTop = '2%'; 
 
-    const chartLabel = document.createElement('label');
-    chartLabel.innerHTML = 'Type ';
-    selectWrapper.appendChild(chartLabel);
     selectWrapper.appendChild(select);
 
     const label = this.#createChartTypeLabel(datasetInput.label);

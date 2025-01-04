@@ -1,5 +1,4 @@
 import { SelectboxJS } from 'selectbox-js';
-import { DoodleChart } from './doodle-chart/DoodleChart.js';
 
 class Typify {
   constructor(enhancedChart) {
@@ -159,11 +158,6 @@ class Typify {
         });
         chartTypeWrapper.appendChild(chatTypeDropdwonContainer);
 
-        if (chartParams?.drawToolBox) {
-          const doodleChart = new DoodleChart();
-          const toolBoxContainer = doodleChart.createToolBoxContainer(canvasId);
-          chartTypeWrapper.appendChild(toolBoxContainer);
-        }
         chartWrapper.appendChild(chartTypeWrapper);
       }
     }

@@ -168,25 +168,34 @@ const styleRules = `
   margin-right: 10px;
 }
 
-/* Right side - Dropdown */
-.chat-type-dropdwon-container {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
+
+.toolbox-wrapper {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;  /* Ensure toolbox appears above the chart */
 }
 
-/* Chart type dropdown specific styles */
-.chart-type-dropdown {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: auto;
+.tool-box-container-div {
+  margin-left: 20px;  /* Add space to the left */
 }
 
-/* If needed, ensure the dropdown container doesn't wrap */
-.chart-type-dropdown-container {
-  white-space: nowrap;
+.drawing-toolbar {
+  position: absolute;
+  top: -14.5%;
+  right: 10px;
+  left: 50px;
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  width: fit-content;
+  margin: 5px;
+  z-index: 101;
+  display: none;
+  position: relative;  /* Add this to establish positioning context */
 }
+
 `;
 
 const addStyleSheet = () => {

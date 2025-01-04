@@ -8,7 +8,6 @@ import { Styleblast } from './style/Styleblast.js';
 import { addGoogleFont, loadBoxiconsCSS } from './tool-kit/Utils.js';
 import { DoodleChart } from './bolt-ons/doodle-chart/DoodleChart';
 
-
 class Plotter {
   constructor() {
     this.charts = {};
@@ -222,9 +221,16 @@ class Plotter {
     const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
 
     if (chartParams?.drawToolBox) {
+      const toolboxWrapper = document.createElement('div');
+      toolboxWrapper.className = 'toolbox-wrapper';
+
       const doodleChart = new DoodleChart();
+      const toolBoxContainer = doodleChart.createToolBoxContainer(chartCanvasId);
+      toolboxWrapper.appendChild(toolBoxContainer);
+      const chartWrapperDov = document.getElementById(`chart-wrapper-${chartCanvasId}`);
+      chartWrapperDov.appendChild(toolboxWrapper);
       doodleChart.createDrawingTools(chartParentDiv, chartCanvasId);
-      doodleChart.setTool('pen');
+      doodleChart.setTool('pen');   
     }
 
     addGoogleFont(`#chart-wrapper-${chartCanvasId}`);

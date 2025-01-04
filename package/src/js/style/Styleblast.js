@@ -1,12 +1,5 @@
 
 const styleRules = `
-  .chart-wrapper {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-  }
-
   .chart-parent-div {
     min-width: 100% !important;
     width: 95%;
@@ -14,12 +7,16 @@ const styleRules = `
   }
 
   .chart-wrapper {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
     display: flex;
     align-items: column;
     flex-direction: column;
     width: 95%;
     max-width: 100% !important;
     margin: 1% !important;
+      position: relative;
   }
 
   .chart-type-wrapper {
@@ -170,6 +167,35 @@ const styleRules = `
   .superchart-select-menu-option i{
     margin-right: 12px;
   }
+
+  /* Right side - Dropdown */
+.chat-type-dropdwon-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Chart type dropdown specific styles */
+.chart-type-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: auto;
+}
+
+/* If needed, ensure the dropdown container doesn't wrap */
+.chart-type-dropdown-container {
+  white-space: nowrap;
+}
+
+
+.chat-type-dropdwon-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;  /* Add this line */
+  gap: 20px;
+  margin-right: 20px;
+}
 `;
 
 const addStyleSheet = () => {

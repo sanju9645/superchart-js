@@ -54,6 +54,10 @@ export class ToolbarManager {
       <button class="clear-canvas tool-box-icon" title="Clear Drawing">
         <i class="fa-solid fa-trash-can"></i>
       </button>
+
+      <button class="close-canvas tool-box-icon" title="Close Drawing" id="close-tool-box-canvas">
+        <i class="fa-solid fa-xmark"  style="color: red;"></i>
+      </button>
     `;
   }
 
@@ -93,7 +97,29 @@ export class ToolbarManager {
     this.setupWidthSlider();
     this.setupUndoButton();
     this.setupClearButton();
+    this.setupCloseButton();
     this.setupKeyboardShortcuts();
+  }
+
+  setupCloseButton() {
+    const closeButton = this.toolbar.querySelector('.close-canvas');
+    closeButton.addEventListener('click', () => {
+      this.toolbar.style.display = 'none';
+      this.doodleChart.isToolbarVisible = false;
+        
+      // Reset toggle button state
+      const toggleButton = document.getElementById(`tool-box-container-div-${this.doodleChart.chartCanvasId}`);
+      if (toggleButton) {
+          toggleButton.style.backgroundColor = 'white';
+      }
+        
+      // Reset z-index
+      this.doodleChart.fabricCanvas.wrapperEl.style.zIndex = '-1';
+      
+      // Discard active object if any
+      this.doodleChart.fabricCanvas.discardActiveObject();
+      this.doodleChart.fabricCanvas.requestRenderAll();
+    });
   }
 
   setupToolButtons() {

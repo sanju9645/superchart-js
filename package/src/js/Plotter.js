@@ -8,11 +8,9 @@ import { Styleblast } from './style/Styleblast.js';
 import { addGoogleFont, loadBoxiconsCSS } from './tool-kit/Utils.js';
 
 import { DoodleChartStyles } from './style/DoodleChartStyles.js';
-// import { DrawingTools } from './bolt-ons/DoodleChart.js';
-import { DoodleChart } from './bolt-ons/doodle-chart/DoodleChart.js';
+import { DoodleChart } from './bolt-ons/doodle-chart/DoodleChart';
 
 
-DoodleChartStyles
 class Plotter {
   constructor() {
     this.charts = {};

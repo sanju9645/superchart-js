@@ -31,7 +31,7 @@ const styleRules = `
 }
 
 .tool-box-icon {
-  border: 1px solid #795548;
+  border: none !important;
   height: 30px;
   width: 30px;
   box-shadow: none;
@@ -61,7 +61,7 @@ const styleRules = `
 .drawing-toolbar {
   display: none;
   position: absolute;
-  left: 50px;
+  left: 0px !important;
   top: 0;
   background: #fff;
   border-radius: 10px;

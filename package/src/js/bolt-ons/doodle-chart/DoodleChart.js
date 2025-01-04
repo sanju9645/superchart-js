@@ -8,6 +8,7 @@ import { EraserTool } from './tools/EraserTool.js';
 import { LineShape } from './tools/shapes/LineShape.js';
 import { RectangleShape } from './tools/shapes/RectangleShape.js';
 import { CircleShape } from './tools/shapes/CircleShape.js';
+import { DoodleChartStyles } from './style/DoodleChartStyles.js';
 
 export class DoodleChart {
   constructor() {
@@ -18,6 +19,7 @@ export class DoodleChart {
     this.isToolbarVisible = false;
     this.historyManager = new HistoryManager();
     this.toolbarManager = new ToolbarManager();
+    DoodleChartStyles();
   }
 
   createDrawingTools(parentDiv, chartCanvasId) {

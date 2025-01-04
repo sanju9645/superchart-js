@@ -6,8 +6,6 @@ import { Colors } from './pigments/Colors.js';
 import { Tidyup } from './bolt-ons/Tidyup.js';
 import { Styleblast } from './style/Styleblast.js';
 import { addGoogleFont, loadBoxiconsCSS } from './tool-kit/Utils.js';
-
-import { DoodleChartStyles } from './style/DoodleChartStyles.js';
 import { DoodleChart } from './bolt-ons/doodle-chart/DoodleChart';
 
 
@@ -16,7 +14,6 @@ class Plotter {
     this.charts = {};
     this.enhancedChartType = new Typify(this);
     Styleblast(); 
-    DoodleChartStyles();
   }
 
   #customBackgroundPlugin(backgroundColor) {
@@ -225,10 +222,6 @@ class Plotter {
     const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
 
     if (chartParams?.drawToolBox) {
-      // const drawingTools = new DrawingTools(); // Create an instance
-      // drawingTools.createDrawingTools(chartParentDiv, chartCanvasId);
-      // drawingTools.setTool('pen');
-
       const doodleChart = new DoodleChart();
       doodleChart.createDrawingTools(chartParentDiv, chartCanvasId);
       doodleChart.setTool('pen');

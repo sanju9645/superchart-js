@@ -49,9 +49,6 @@ class Typify {
     selectWrapper.style.gap = '2%'; 
     selectWrapper.style.marginTop = '2%'; 
 
-    const chartLabel = document.createElement('label');
-    chartLabel.innerHTML = 'Type ';
-    selectWrapper.appendChild(chartLabel);
     selectWrapper.appendChild(select);
 
     const label = this.#createChartTypeLabel(datasetInput.label);
@@ -151,12 +148,16 @@ class Typify {
       if (chartParams?.toggleChartTypeSwitch) {
         const chartTypeWrapper = document.createElement('div');
         chartTypeWrapper.className = 'chart-type-wrapper';
-        chartTypeWrapper.style.marginTop = "2%";
+
+        const chatTypeDropdwonContainer = document.createElement('div');
+        chatTypeDropdwonContainer.className = 'chat-type-dropdwon-container';
 
         chartParams.legends.forEach((datasetInput) => {
           const chatTypeDropdwonWrapper = this.#createChartTypeDropdown(chartParams?.chartTitle, datasetInput);
-          chartTypeWrapper.appendChild(chatTypeDropdwonWrapper);
+          chatTypeDropdwonContainer.appendChild(chatTypeDropdwonWrapper);
         });
+        chartTypeWrapper.appendChild(chatTypeDropdwonContainer);
+
         chartWrapper.appendChild(chartTypeWrapper);
       }
     }

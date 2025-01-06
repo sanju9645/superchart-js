@@ -6,6 +6,7 @@ import { Colors } from './pigments/Colors.js';
 import { Tidyup } from './bolt-ons/Tidyup.js';
 import { Styleblast } from './style/Styleblast.js';
 import { addGoogleFont, loadBoxiconsCSS } from './tool-kit/Utils.js';
+import { DoodleChart } from './bolt-ons/doodle-chart/DoodleChart';
 
 class Plotter {
   constructor() {
@@ -150,6 +151,19 @@ class Plotter {
     return chartParams;
   }
 
+  #initializeDrawingToolbox(chartParentDiv, chartCanvasId, chartWrapperDiv) {
+    const doodleChart = new DoodleChart();
+    const toolBoxContainer = doodleChart.createToolBoxContainer(chartCanvasId);
+    
+    const toolboxWrapper = document.createElement('div');
+    toolboxWrapper.className = 'toolbox-wrapper';
+    toolboxWrapper.appendChild(toolBoxContainer);
+    
+    chartWrapperDiv.appendChild(toolboxWrapper);
+
+    doodleChart.setupDrawingContext(chartParentDiv, chartCanvasId);
+  }
+
   plotChart(chartParams) {
     if (!this.#validateChartParams(chartParams)) {
       return;
@@ -214,6 +228,13 @@ class Plotter {
     
     if (chartWrapperDiv) {
       chartWrapperDiv.style.backgroundColor = backgroundColor;
+    }
+
+    // Add drawing tools after creating the chart
+    const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
+
+    if (chartParams?.drawToolBox) {
+      this.#initializeDrawingToolbox(chartParentDiv, chartCanvasId, chartWrapperDiv)
     }
 
     addGoogleFont(`#chart-wrapper-${chartCanvasId}`);

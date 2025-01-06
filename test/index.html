@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super ChartJS</title>
+
+
+</head>
+
+<body>
+  <div id="chart-wrapper" class="chart-wrapper">
+
+  </div>
+  <div id="chart-wrapper" class="chart-wrapper">
+
+  </div>
+  <div id="chart-wrapper" class="chart-wrapper">
+
+  </div>
+</body>
+
+<script type="module">
+  import { Plotter } from '../package/src/js/Plotter.js';
+  // import { Plotter } from '../node_modules/superchartjs/dist/graph.es.js';
+  // import { Plotter } from 'superchartjs';
+
+
+  // Event listener
+  document.addEventListener('DOMContentLoaded', async () => {
+    const chartData = {
+      chartTitle: "Monthly Sales Revenue",
+      xAxisValues: [
+        "2024-01-01",
+        "2024-02-01",
+        "2024-03-01",
+        "2024-04-01",
+        "2024-05-01",
+        "2024-06-01",
+        "2024-07-01",
+        "2024-08-01",
+        "2024-09-01",
+        "2024-10-01",
+        "2024-11-01",
+        "2024-12-01"
+
+      ],
+      axisLabels: {
+        xAxisLabel: "Month",
+        yAxisLabel: "Revenue (USD)"
+      },
+      legends: [
+        {
+          label: "Product A Sales",
+          data: [500, 700, 800, 1200, 1500, 1400, 600, 550, 900, 1000, 1100],
+          type: "area",
+        },
+      ],
+      toggleChartTypeSwitch: true,
+      legendSorting: true,
+      drawToolBox: true
+    };
+
+    const chartData2 = {
+      chartTitle: "Website Traffic Overview",
+      xAxisValues: [
+        "2024-01-01",
+        "2024-02-01",
+        "2024-03-01",
+        "2024-04-01",
+        "2024-05-01",
+        "2024-06-01"
+      ],
+      axisLabels: {
+        xAxisLabel: "Month",
+        yAxisLabel: "Number of Visitors"
+      },
+      legends: [
+        {
+          label: "Organic Traffic",
+          data: [2000, 3000, 3500, 4000, 4500, 5000],
+          type: "area",
+        },
+        {
+          label: "Paid Traffic",
+          data: [800, 1200, 1500, 1800, 2000, 2200],
+          type: "line",
+          fillColor: false,
+          aboveColor: false
+        }
+      ],
+      legendSorting: true,
+      toggleChartTypeSwitch: true,
+      drawToolBox: true
+    };
+
+    const chartData3 = {
+      chartTitle: "App Traffic Overview",
+      xAxisValues: [
+        "2024-01-01",
+        "2024-02-01",
+        "2024-03-01",
+        "2024-04-01",
+        "2024-05-01",
+        "2024-06-01"
+      ],
+      legends: [
+        {
+          label: "Organic Traffic",
+          data: [2000, 3000, 3500, 4000, 4500, 5000],
+          type: "area",
+        },
+        {
+          label: "Paid Traffic",
+          data: [800, 1200, 1500, 1800, 2000, 2200],
+          type: "line",
+          fillColor: false,
+          aboveColor: false
+        },
+        {
+          label: "Social Media Traffic",
+          data: [1500, 1800, 2200, 2600, 3000, 3500],
+          type: "line",
+          fillColor: false
+        },
+        {
+          label: "Email Marketing",
+          data: [600, 900, 1100, 1400, 1600, 1900],
+          type: "area"
+        },
+        {
+          label: "Direct Traffic",
+          data: [1200, 1400, 1600, 1900, 2100, 2400],
+          type: "line"
+        },
+        {
+          label: "Referral Traffic",
+          data: [400, 600, 800, 1000, 1200, 1400],
+          type: "area"
+        },
+        {
+          label: "Mobile Users",
+          data: [2500, 2800, 3200, 3600, 4000, 4400],
+          type: "line",
+          fillColor: false
+        },
+        {
+          label: "Desktop Users",
+          data: [1800, 2000, 2300, 2600, 2900, 3200],
+          type: "area"
+        },
+        {
+          label: "Tablet Users",
+          data: [300, 400, 500, 600, 700, 800],
+          type: "line"
+        },
+        {
+          label: "International Traffic",
+          data: [900, 1100, 1300, 1500, 1700, 1900],
+          type: "area"
+        },
+        {
+          label: "Returning Visitors",
+          data: [1000, 1300, 1600, 1900, 2200, 2500],
+          type: "line",
+          fillColor: false
+        },
+        {
+          label: "New Visitors",
+          data: [1600, 1900, 2200, 2500, 2800, 3100],
+          type: "area"
+        }
+      ],
+      legendSorting: true,
+      toggleChartTypeSwitch: false,
+      drawToolBox: true 
+    };
+
+      // First plot the charts
+      const graph = new Plotter();
+      graph.plotChart(chartData);
+      graph.plotChart(chartData2);
+      graph.plotChart(chartData3);
+
+  });
+</script>
+
+</html>
+

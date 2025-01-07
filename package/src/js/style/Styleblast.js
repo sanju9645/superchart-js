@@ -191,6 +191,24 @@ const styleRules = `
     align-items: flex-start;
     width: auto;
   }
+
+  .tool-icon-container-div {
+    position: relative;
+    z-index: 1000;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    flex: 0 0 auto;
+    margin-right: 10px;
+    margin-left: 20px;  /* Add space to the left */
+  }
 `;
 
 const addStyleSheet = () => {

@@ -5,6 +5,9 @@ export class AnalyticsModal {
     existingModals.forEach(modal => modal.remove());
 
     const isDarkTheme = chartParams?.analyticsModel?.theme === 'black';
+
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
     
     const modalContainer = document.createElement('div');
     modalContainer.className = `analytics-modal-overlay ${isDarkTheme ? 'dark-theme' : 'light-theme'}`;
@@ -17,6 +20,20 @@ export class AnalyticsModal {
     closeButton.className = 'analytics-modal-close';
     closeButton.innerHTML = '&times;';
     closeButton.onclick = () => modalContainer.remove();
+
+    // Add cleanup to the close handlers
+    const closeModal = () => {
+      modalContainer.remove();
+      document.body.style.overflow = ''; // Restore scrolling when modal closes
+    };
+
+    closeButton.onclick = closeModal;
+    
+    modalContainer.addEventListener('click', (e) => {
+      if (e.target === modalContainer) {
+        closeModal();
+      }
+    });
 
     const contentWrapper = document.createElement('div');
     contentWrapper.className = 'analytics-content-wrapper';

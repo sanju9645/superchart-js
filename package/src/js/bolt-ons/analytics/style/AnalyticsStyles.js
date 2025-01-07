@@ -26,13 +26,12 @@ const styleRules = `
     margin-left: 20px;  /* Add space to the left */
   }
 
-
   .analytics-modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -40,12 +39,11 @@ const styleRules = `
     z-index: 1000;
     font-family: 'Poppins', sans-serif;
     padding: 20px;
-
+    border-radius: 8px;
   }
 
   .analytics-modal-content {
     background: transparent;
-    // padding: 20px;
     padding: 40px 20px 20px; 
     border-radius: 8px;
     max-width: 800px;

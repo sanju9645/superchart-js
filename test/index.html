@@ -63,7 +63,6 @@
       analyticsModel: {
         theme: 'black'
       },
-      enableAnalyticsDownload: true,
     };
 
     const chartData2 = {
@@ -102,8 +101,12 @@
       ],
       legendSorting: true,
       toggleChartTypeSwitch: true,
-      drawToolBox: true,
-      showAnalytics: true
+      drawToolBox: false,
+      enableChartDownload: true,
+      showAnalytics: true,
+      analyticsModel: {
+        theme: 'black'
+      },
     };
 
     const chartData3 = {
@@ -186,7 +189,11 @@
       legendSorting: true,
       toggleChartTypeSwitch: true,
       drawToolBox: false,
-      showAnalytics: true
+      showAnalytics: true,
+      analyticsModel: {
+        theme: 'black'
+      },
+      enableChartDownload: true,
     };
 
       // First plot the charts

@@ -14,6 +14,14 @@ class Plotter {
     this.charts = {};
     this.enhancedChartType = new Typify(this);
     Styleblast(); 
+    this.#includeFontAwesome();
+  }
+
+  #includeFontAwesome() {
+    const link = document.createElement('link');
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
   }
 
   #customBackgroundPlugin(backgroundColor) {

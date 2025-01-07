@@ -26,7 +26,6 @@ const styleRules = `
     margin-left: 20px;  /* Add space to the left */
   }
 
-
   .analytics-modal-overlay {
     position: fixed;
     top: 1rem;

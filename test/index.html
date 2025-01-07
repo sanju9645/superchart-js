@@ -25,7 +25,6 @@
   // import { Plotter } from '../node_modules/superchartjs/dist/graph.es.js';
   // import { Plotter } from 'superchartjs';
 
-
   // Event listener
   document.addEventListener('DOMContentLoaded', async () => {
     const chartData = {
@@ -58,7 +57,11 @@
       ],
       toggleChartTypeSwitch: true,
       legendSorting: true,
-      drawToolBox: true
+      drawToolBox: false,
+      showAnalytics: true,
+      analyticsModel: {
+        theme: 'black'
+      }
     };
 
     const chartData2 = {
@@ -87,11 +90,18 @@
           type: "line",
           fillColor: false,
           aboveColor: false
-        }
+        },
+        {
+          label: "Social Media Traffic",
+          data: [1500, 1800, 2200, 2600, 3000, 3500],
+          type: "line",
+          fillColor: false
+        },
       ],
       legendSorting: true,
       toggleChartTypeSwitch: true,
-      drawToolBox: true
+      drawToolBox: true,
+      showAnalytics: false
     };
 
     const chartData3 = {
@@ -172,8 +182,9 @@
         }
       ],
       legendSorting: true,
-      toggleChartTypeSwitch: false,
-      drawToolBox: true 
+      toggleChartTypeSwitch: true,
+      drawToolBox: false,
+      showAnalytics: true
     };
 
       // First plot the charts

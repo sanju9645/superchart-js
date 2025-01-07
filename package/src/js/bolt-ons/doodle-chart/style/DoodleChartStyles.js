@@ -147,16 +147,6 @@ const styleRules = `
     }
   }
 
-  /* Base container */
-  .chart-type-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    position: relative;
-    padding: 0 10px;
-  }
-
   /* Left side - Tool box */
   .tool-box-container-div {
     position: relative;
@@ -165,10 +155,12 @@ const styleRules = `
   }
 
   .toolbox-wrapper {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 10;  /* Ensure toolbox appears above the chart */
+    position: relative;
+    z-index: 10;
+    display: flex;    /* Add display flex */
+    align-items: center;
+    width: 40px;      /* Set explicit width */
+    height: 40px;     /* Set explicit height */
   }
 
   .tool-box-container-div {

@@ -148,15 +148,22 @@ class Typify {
       if (chartParams?.toggleChartTypeSwitch) {
         const chartTypeWrapper = document.createElement('div');
         chartTypeWrapper.className = 'chart-type-wrapper';
+        chartTypeWrapper.id = `chart-type-wrapper-${canvasId}`;
 
-        const chatTypeDropdwonContainer = document.createElement('div');
-        chatTypeDropdwonContainer.className = 'chat-type-dropdwon-container';
+        const chartTypeDropdwonContainer = document.createElement('div');
+        chartTypeDropdwonContainer.className = 'chart-type-dropdown-container';
 
         chartParams.legends.forEach((datasetInput) => {
-          const chatTypeDropdwonWrapper = this.#createChartTypeDropdown(chartParams?.chartTitle, datasetInput);
-          chatTypeDropdwonContainer.appendChild(chatTypeDropdwonWrapper);
+          const chartTypeDropdwonWrapper = this.#createChartTypeDropdown(chartParams?.chartTitle, datasetInput);
+          chartTypeDropdwonContainer.appendChild(chartTypeDropdwonWrapper);
         });
-        chartTypeWrapper.appendChild(chatTypeDropdwonContainer);
+
+        const chartToolsContainer = document.createElement('div');
+        chartToolsContainer.className = 'chart-tools-container';
+        chartToolsContainer.id = `chart-tools-container-${canvasId}`;
+
+        chartTypeWrapper.appendChild(chartToolsContainer);
+        chartTypeWrapper.appendChild(chartTypeDropdwonContainer);
 
         chartWrapper.appendChild(chartTypeWrapper);
       }

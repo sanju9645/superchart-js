@@ -30,7 +30,9 @@
   "homepage": "https://github.com/sanju9645/superchartjs#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "@tensorflow/tfjs": "^4.22.0",
     "chart.js": "^4.4.3",
+    "d3": "^7.9.0",
     "fabric": "^6.5.4",
     "selectbox-js": "^1.0.2",
     "vite": "^6.0.6"

@@ -19,6 +19,8 @@ export default defineConfig({
       output: {
         globals: {
           'chart.js': 'Chart',
+          'd3': 'd3',
+          'tf': 'tf'
         }
       }
     }

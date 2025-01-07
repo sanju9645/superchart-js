@@ -22,12 +22,14 @@ const styleRules = `
   .chart-type-wrapper {
     order: -1;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
     gap: 2%;
     margin-top: 2%;
+    position: relative;
+    padding: 0 10px;
   }
 
   .chart-type-dropdown {
@@ -38,13 +40,6 @@ const styleRules = `
     margin-right: 1% !important;
     font-family: sans-serif;
     font-size: small;
-  }
-
-  .chat-type-dropdwon-container {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    margin-right: 20px;
   }
 
   .chart-type-label {
@@ -168,11 +163,25 @@ const styleRules = `
     margin-right: 12px;
   }
 
-  /* Right side - Dropdown */
-  .chat-type-dropdwon-container {
-    flex: 1;
+  .chart-tools-container {
     display: flex;
+    position: relative;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    height: 40px;
+    width: auto;
+  }
+
+  /* Right side - Dropdown */
+  .chart-type-dropdown-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: flex-end;
+    gap: 20px;
+    margin-right: 20px;
+    flex: 0 1 auto;
   }
 
   /* Chart type dropdown specific styles */
@@ -181,19 +190,6 @@ const styleRules = `
     flex-direction: column;
     align-items: flex-start;
     width: auto;
-  }
-
-  /* If needed, ensure the dropdown container doesn't wrap */
-  .chart-type-dropdown-container {
-    white-space: nowrap;
-  }
-
-  .chat-type-dropdwon-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;  /* Add this line */
-    gap: 20px;
-    margin-right: 20px;
   }
 `;
 

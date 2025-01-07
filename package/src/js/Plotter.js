@@ -7,6 +7,7 @@ import { Tidyup } from './bolt-ons/Tidyup.js';
 import { Styleblast } from './style/Styleblast.js';
 import { addGoogleFont, loadBoxiconsCSS } from './tool-kit/Utils.js';
 import { DoodleChart } from './bolt-ons/doodle-chart/DoodleChart';
+import { Analytics } from './bolt-ons/analytics/Analytics.js';
 
 class Plotter {
   constructor() {
@@ -151,7 +152,7 @@ class Plotter {
     return chartParams;
   }
 
-  #initializeDrawingToolbox(chartParentDiv, chartCanvasId, chartWrapperDiv) {
+  #initializeDrawingToolbox(chartParentDiv, chartCanvasId) {
     const doodleChart = new DoodleChart();
     const toolBoxContainer = doodleChart.createToolBoxContainer(chartCanvasId);
     
@@ -159,9 +160,23 @@ class Plotter {
     toolboxWrapper.className = 'toolbox-wrapper';
     toolboxWrapper.appendChild(toolBoxContainer);
     
-    chartWrapperDiv.appendChild(toolboxWrapper);
+    const chartToolsContainer = document.getElementById(`chart-tools-container-${chartCanvasId}`);
+    chartToolsContainer.appendChild(toolboxWrapper);
 
     doodleChart.setupDrawingContext(chartParentDiv, chartCanvasId);
+  }
+
+  #initializeAnalyticsTool(chartParams, chartCanvasId) {
+    const analytics = new Analytics();
+    const analysisToolIcon = analytics.createAnalyticsToolContainer(chartCanvasId);
+    analysisToolIcon.addEventListener('click', () => analytics.showAnalyticsModal(chartParams, chartCanvasId));
+    
+    const analyticsToolWrapper = document.createElement('div');
+    analyticsToolWrapper.className = 'analytics-wrapper';
+    analyticsToolWrapper.appendChild(analysisToolIcon);
+    
+    const chartToolsContainer = document.getElementById(`chart-tools-container-${chartCanvasId}`);
+    chartToolsContainer.appendChild(analyticsToolWrapper);
   }
 
   plotChart(chartParams) {
@@ -234,7 +249,11 @@ class Plotter {
     const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
 
     if (chartParams?.drawToolBox) {
-      this.#initializeDrawingToolbox(chartParentDiv, chartCanvasId, chartWrapperDiv)
+      this.#initializeDrawingToolbox(chartParentDiv, chartCanvasId)
+    }
+
+    if (chartParams?.showAnalytics) {
+      this.#initializeAnalyticsTool(chartParams, chartCanvasId);
     }
 
     addGoogleFont(`#chart-wrapper-${chartCanvasId}`);

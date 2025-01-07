@@ -182,7 +182,7 @@ class Plotter {
   #initializePDFDownloadTool(chartParams, chartCanvasId) {
     const pdfDownload = new PDFDownload();
     const pdfDownloadToolIcon = pdfDownload.createPDFDownloadToolContainer(chartCanvasId);
-    pdfDownloadToolIcon.addEventListener('click', () => pdfDownload.showAnalyticsModal(chartParams, chartCanvasId));
+    pdfDownloadToolIcon.addEventListener('click', () => pdfDownload.downloadAsPDF(chartParams, chartCanvasId));
     
     const pdfDownloadToolWrapper = document.createElement('div');
     pdfDownloadToolWrapper.className = 'pdf-download-wrapper tool-icon-wrapper';
@@ -269,9 +269,9 @@ class Plotter {
       this.#initializeAnalyticsTool(chartParams, chartCanvasId);
     }
 
-    // if (chartParams?.showPDFDownload) {
+    if (chartParams?.enableChartDownload || chartParams?.enableAnalyticsDownload) {
       this.#initializePDFDownloadTool(chartParams, chartCanvasId);
-    // }
+    }
 
     addGoogleFont(`#chart-wrapper-${chartCanvasId}`);
 

@@ -158,4 +158,4 @@ const AnalyticsStyles = () => {
   observer.observe(document.body, { childList: true, subtree: true });
 }
 
-export { AnalyticsStyles };
+export { AnalyticsStyles, styleRules, addStyleSheet };

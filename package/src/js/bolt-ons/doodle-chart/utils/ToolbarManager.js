@@ -63,7 +63,7 @@ export class ToolbarManager {
 
   createToolBoxContainer(canvasId) {
     const toolBoxContainer = document.createElement('div');
-    toolBoxContainer.className = 'tool-box-container-div';
+    toolBoxContainer.className = 'tool-box-container-div tool-icon-container-div';
     toolBoxContainer.id = `tool-box-container-div-${canvasId}`;
 
     const toolBoxIcon = document.createElement('i');

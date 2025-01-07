@@ -39,21 +39,6 @@ const styleRules = `
     border-radius: 4px;
   }
 
-  .tool-box-container-div {
-    position: absolute;
-    z-index: 1000;
-    cursor: pointer;
-    background: #fff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-  }
-
   .tool-box-container-div.active {
     border-radius: 10px;
   }
@@ -147,13 +132,6 @@ const styleRules = `
     }
   }
 
-  /* Left side - Tool box */
-  .tool-box-container-div {
-    position: relative;
-    flex: 0 0 auto;
-    margin-right: 10px;
-  }
-
   .toolbox-wrapper {
     position: relative;
     z-index: 10;
@@ -161,10 +139,6 @@ const styleRules = `
     align-items: center;
     width: 40px;      /* Set explicit width */
     height: 40px;     /* Set explicit height */
-  }
-
-  .tool-box-container-div {
-    margin-left: 20px;  /* Add space to the left */
   }
 
   .drawing-toolbar {

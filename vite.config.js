@@ -12,7 +12,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'package/src/js/Plotter.js'),
       name: 'SuperChartJS',
-      fileName: (format) => `graph.${format}.js`,
+      fileName: (format) => `superchart-js.${format}.js`,
       formats: ['es', 'cjs', 'umd']
     },
     rollupOptions: {

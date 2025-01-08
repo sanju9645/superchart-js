@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import path from 'path';
 
 export default defineConfig({
-  root: path.resolve(__dirname, 'test'),
+  root: path.resolve(__dirname, 'docs'),
   server: {
     open: true
   },

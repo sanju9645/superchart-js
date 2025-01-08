@@ -12,6 +12,7 @@ Checkout the npm package of **SuperChartJS**:
   <img src="https://img.shields.io/github/license/yourusername/superchart-js" alt="license">
 </p>
 
+![Demo of the Project](./docs/demo.gif)
 
 This package is an enhanced version of the [Chart.js](https://github.com/chartjs/Chart.js) library. 
 The original Chart.js is distributed under the MIT License, and this package builds on the original Chart.js by adding additional functionality through plugins and extra scripts. 

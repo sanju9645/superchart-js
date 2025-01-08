@@ -6,12 +6,22 @@ import { Colors } from './pigments/Colors.js';
 import { Tidyup } from './bolt-ons/Tidyup.js';
 import { Styleblast } from './style/Styleblast.js';
 import { addGoogleFont, loadBoxiconsCSS } from './tool-kit/Utils.js';
-
+import { DoodleChart } from './bolt-ons/doodle-chart/DoodleChart';
+import { Analytics } from './bolt-ons/analytics/Analytics.js';
+import { PDFDownload } from './bolt-ons/download/PDFDownload.js';
 class Plotter {
   constructor() {
     this.charts = {};
     this.enhancedChartType = new Typify(this);
     Styleblast(); 
+    this.#includeFontAwesome();
+  }
+
+  #includeFontAwesome() {
+    const link = document.createElement('link');
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
   }
 
   #customBackgroundPlugin(backgroundColor) {
@@ -150,6 +160,46 @@ class Plotter {
     return chartParams;
   }
 
+  #initializeDrawingToolbox(chartParentDiv, chartCanvasId) {
+    const doodleChart = new DoodleChart();
+    const toolBoxContainer = doodleChart.createToolBoxContainer(chartCanvasId);
+    
+    const toolboxWrapper = document.createElement('div');
+    toolboxWrapper.className = 'toolbox-wrapper tool-icon-wrapper';
+    toolboxWrapper.appendChild(toolBoxContainer);
+    
+    const chartToolsContainer = document.getElementById(`chart-tools-container-${chartCanvasId}`);
+    chartToolsContainer.appendChild(toolboxWrapper);
+
+    doodleChart.setupDrawingContext(chartParentDiv, chartCanvasId);
+  }
+
+  #initializeAnalyticsTool(chartParams, chartCanvasId) {
+    const analytics = new Analytics();
+    const analysisToolIcon = analytics.createAnalyticsToolContainer(chartCanvasId);
+    analysisToolIcon.addEventListener('click', () => analytics.showAnalyticsModal(chartParams, chartCanvasId));
+    
+    const analyticsToolWrapper = document.createElement('div');
+    analyticsToolWrapper.className = 'analytics-wrapper tool-icon-wrapper';
+    analyticsToolWrapper.appendChild(analysisToolIcon);
+    
+    const chartToolsContainer = document.getElementById(`chart-tools-container-${chartCanvasId}`);
+    chartToolsContainer.appendChild(analyticsToolWrapper);
+  }
+
+  #initializePDFDownloadTool(chartParams, chartCanvasId) {
+    const pdfDownload = new PDFDownload();
+    const pdfDownloadToolIcon = pdfDownload.createPDFDownloadToolContainer(chartCanvasId);
+    pdfDownloadToolIcon.addEventListener('click', () => pdfDownload.downloadAsPDF(chartParams, chartCanvasId));
+    
+    const pdfDownloadToolWrapper = document.createElement('div');
+    pdfDownloadToolWrapper.className = 'pdf-download-wrapper tool-icon-wrapper';
+    pdfDownloadToolWrapper.appendChild(pdfDownloadToolIcon);
+
+    const chartToolsContainer = document.getElementById(`chart-tools-container-${chartCanvasId}`);
+    chartToolsContainer.appendChild(pdfDownloadToolWrapper);
+  }
+
   plotChart(chartParams) {
     if (!this.#validateChartParams(chartParams)) {
       return;
@@ -214,6 +264,21 @@ class Plotter {
     
     if (chartWrapperDiv) {
       chartWrapperDiv.style.backgroundColor = backgroundColor;
+    }
+
+    // Add drawing tools after creating the chart
+    const chartParentDiv = document.getElementById(`chart-parent-div-${chartCanvasId}`);
+
+    if (chartParams?.drawToolBox) {
+      this.#initializeDrawingToolbox(chartParentDiv, chartCanvasId)
+    }
+
+    if (chartParams?.showAnalytics) {
+      this.#initializeAnalyticsTool(chartParams, chartCanvasId);
+    }
+
+    if (chartParams?.enableChartDownload || chartParams?.enableAnalyticsDownload) {
+      this.#initializePDFDownloadTool(chartParams, chartCanvasId);
     }
 
     addGoogleFont(`#chart-wrapper-${chartCanvasId}`);

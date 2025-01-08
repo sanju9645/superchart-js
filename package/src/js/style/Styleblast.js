@@ -1,12 +1,5 @@
 
 const styleRules = `
-  .chart-wrapper {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-  }
-
   .chart-parent-div {
     min-width: 100% !important;
     width: 95%;
@@ -14,22 +7,29 @@ const styleRules = `
   }
 
   .chart-wrapper {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
     display: flex;
     align-items: column;
     flex-direction: column;
     width: 95%;
     max-width: 100% !important;
     margin: 1% !important;
+      position: relative;
   }
 
   .chart-type-wrapper {
     order: -1;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     width: 100%;
     gap: 2%;
+    margin-top: 2%;
+    position: relative;
+    padding: 0 10px;
   }
 
   .chart-type-dropdown {
@@ -161,6 +161,53 @@ const styleRules = `
 
   .superchart-select-menu-option i{
     margin-right: 12px;
+  }
+
+  .chart-tools-container {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    height: 40px;
+    width: auto;
+  }
+
+  /* Right side - Dropdown */
+  .chart-type-dropdown-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-right: 20px;
+    flex: 0 1 auto;
+  }
+
+  /* Chart type dropdown specific styles */
+  .chart-type-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+  }
+
+  .tool-icon-container-div {
+    position: relative;
+    z-index: 1000;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    flex: 0 0 auto;
+    margin-right: 10px;
+    margin-left: 20px;  /* Add space to the left */
   }
 `;
 

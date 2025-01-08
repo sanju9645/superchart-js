@@ -1,5 +1,5 @@
 {
-  "name": "superchartjs",
+  "name": "superchart-js",
   "version": "1.0.0",
   "description": "Supercharge your charts with ChartJS Enhanced!",
   "main": "dist/graph.cjs.js",
@@ -19,15 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sanju9645/superchartjs.git"
+    "url": "git+https://github.com/sanju9645/superchart-js.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sanju9645/superchartjs/issues"
+    "url": "https://github.com/sanju9645/superchart-js/issues"
   },
-  "homepage": "https://github.com/sanju9645/superchartjs#readme",
+  "homepage": "https://github.com/sanju9645/superchart-js#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@tensorflow/tfjs": "^4.22.0",

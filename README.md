@@ -1,4 +1,4 @@
-# superchartjs
+# superchart-js
 Supercharge your charts with ChartJS Enhanced!
 
 <p align="center">
@@ -16,7 +16,7 @@ No changes have been made to the original Chart.js source code.
 
 Original library: [Chart.js](https://github.com/chartjs/Chart.js)
 
-superchartjs is a robust extension of the popular ChartJS library, designed to offer advanced charting capabilities with greater flexibility and customization options. 
+superchart-js is a robust extension of the popular ChartJS library, designed to offer advanced charting capabilities with greater flexibility and customization options. 
 This library builds upon the foundation of ChartJS, adding new features such as dynamic data sorting, enhanced styling, and additional chart types, enabling developers to create more interactive and visually appealing data visualizations. 
 
 
@@ -26,11 +26,11 @@ Choose your preferred installation method:
 
 ```bash
 # Using npm
-npm install superchartjs
+npm install superchart-js
 
 # Using yarn
-yarn add superchartjs
+yarn add superchart-js
 
 # Using pnpm
-pnpm add superchartjs
+pnpm add superchart-js
 ```

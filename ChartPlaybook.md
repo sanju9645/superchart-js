@@ -4,8 +4,8 @@
 1. Open a terminal in the folder where you want to create your project.
 2. Run the following commands:
 ```
-mkdir superchartjs
-cd superchartjs
+mkdir superchart-js
+cd superchart-js
 npm init -y
 ```
 
@@ -17,7 +17,7 @@ npm install -D rollup-plugin-dts
 
 1.3 Project Structure
 ```
-superchartjs/
+superchart-js/
 ├── test/              # For testing your library
 │   └── index.html     # Example usage
 ├── package/           # Source code for the library
@@ -139,7 +139,7 @@ npm publish --access public
 ## Step 9: Verify the Published Package
 Install the package in a new project and test:
 ```
-npm install superchartjs
+npm install superchart-js
 ```
 
 ## Complete Workflow

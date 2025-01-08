@@ -18,7 +18,7 @@ npm install -D rollup-plugin-dts
 1.3 Project Structure
 ```
 superchart-js/
-├── test/              # For testing your library
+├── docs/              # For testing your library
 │   └── index.html     # Example usage
 ├── package/           # Source code for the library
 │   ├── src/
@@ -43,29 +43,43 @@ import { defineConfig } from 'vite';
 import path from 'path';
 
 export default defineConfig({
-  root: path.resolve(__dirname, 'test'),
+  root: path.resolve(__dirname, 'docs'),
   server: {
     open: true
   },
   build: {
     outDir: path.resolve(__dirname, 'dist'),
+    emptyOutDir: true, // Add this line to clean the dist directory
     lib: {
       entry: path.resolve(__dirname, 'package/src/js/Plotter.js'),
-      name: 'Plotter',
-      fileName: (format) => `graph.${format}.js`,
+      name: 'SuperChartJS',
+      fileName: (format) => `superchart-js.${format}.js`,
       formats: ['es', 'cjs', 'umd']
     },
     rollupOptions: {
-      external: ['chart.js'],
+      external: [
+        'chart.js',
+        'd3',
+        'tf',
+        'html2canvas',
+        'jspdf',
+        'fabric',
+        'selectbox-js'
+      ],
       output: {
         globals: {
           'chart.js': 'Chart',
+          'd3': 'd3',
+          'tf': 'tf',
+          'html2canvas': 'html2canvas',
+          'jspdf': 'jspdf',
+          'fabric': 'fabric',
+          'selectbox-js': 'SelectboxJS'
         }
       }
     }
   }
 });
-
 ```
 ## Step 3: Add Source Code
 Create the file package/src/js/Graph.js and add the example code
@@ -104,15 +118,15 @@ npm run dev
 Ensure package.json has the following fields:
 ```
 {
-  "main": "dist/graph.cjs.js",
-  "module": "dist/graph.es.js",
+  "main": "dist/superchart-js.cjs.js",
+  "module": "dist/superchart-js.es.js",
   "files": [
     "dist",
     "README.md"
   ],
   "peerDependencies": {
     "chart.js": "^4.4.3"
-  }
+  },
 }
 ```
 

@@ -119,19 +119,23 @@ Ensure package.json has the following fields:
 files: Specifies which files to include in the package.
 peerDependencies: Defines chart.js as a peer dependency.
 
-7.2 Bump Version
-Bump the version before publishing:
-```
-npm version patch
-```
 
 ## Step 8: Publish the Package
 8.1 Log In to NPM:
 ```
 npm login
+
+npm whoami
 ```
 
-8.2 Publish
+8.2 Bump Version
+Bump the version before publishing:
+```
+npm version patch
+```
+
+
+8.3 Publish
 ```
 npm publish --access public
 ```

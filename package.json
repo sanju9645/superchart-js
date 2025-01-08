@@ -1,6 +1,6 @@
 {
   "name": "superchart-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Supercharge your charts with ChartJS Enhanced!",
   "main": "dist/superchart-js.cjs.js",
   "module": "dist/superchart-js.es.js",
